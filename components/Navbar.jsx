@@ -9,7 +9,7 @@ export default function Navbar () {
     const [showMenu, setShowMenu] = useState(false);
     
     return (
-        <div className="h-[10vh] border border-black w-full shadow-lg flex items-center justify-center p-4">
+        <div className="h-[10vh]  w-full shadow-lg flex items-center justify-center p-4">
             <div className="w-full md:w-[80%] h-full flex items-center justify-between">
                 <img className="h-[6vh] aspect-ratio-1 drop-shadow-sm " src="/images/Seal_of_Punjab.gif" />
 
