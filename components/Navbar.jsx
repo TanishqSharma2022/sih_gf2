@@ -14,14 +14,14 @@ export default function Navbar () {
                 <img className="h-[6vh] aspect-ratio-1 drop-shadow-sm " src="/images/Seal_of_Punjab.gif" />
 
             <div className="md:visible invisible">
-                <ul className=" flex md:flex-row flex-col gap-6">
+                <ul className=" flex md:flex-row flex-col gap-6 items-center">
                     <Link href="/"><li>Home</li></Link>
                     <Link href="/jobs"><li>Jobs</li></Link>
                     <Link href="/recruiters"><li>Recruiters</li></Link>
                     <Link href="/companies"><li>Companies</li></Link>
-                    <Link href="/login"><li><button>Login</button></li></Link>
-                    <Link href="/register"><li><button>Register</button></li></Link>
-                    <li>|</li>
+                    <Link href="/login"><li><button className="border p-2 px-4 bg-black text-white rounded-full ">Login</button></li></Link>
+                    <Link href="/register"><li><button className="p-2 px-4 border border-black rounded-full hover:bg-gray-600/10 ">Register</button></li></Link>
+                    <li className="font-bold">|</li>
                     <Link href="/hire"><li>Want to Hire?</li></Link>
 
                 </ul>
@@ -40,7 +40,7 @@ export default function Navbar () {
                     <Link href="/jobs"><li>Jobs</li></Link>
                     <Link href="/recruiters"><li>Recruiters</li></Link>
                     <Link href="/companies"><li>Companies</li></Link>
-                    <Link href="/login"><li><button>Login</button></li></Link>
+                    <Link href="/login"><li ><button >Login</button></li></Link>
                     <Link href="/register"><li><button>Register</button></li></Link>
                     <Link href="/hire"><li>Want to Hire?</li></Link>
 
