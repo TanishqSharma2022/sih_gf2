@@ -1,6 +1,6 @@
 export default function hire(){
     return(
-        <div className="md:p-12 w-full p-6 h-[90vh] border-black flex bg-[url('https://images.unsplash.com/photo-1499159058454-75067059248a?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover items-center justify-center flex-col gap-12  md:py-12">
+        <div className="md:p-12 hireImage w-full p-6 min-h-[90vh] border-black flex items-center justify-center flex-col gap-12  md:py-12">
             <div className=" flex items-center justify-center flex-col  gap-6 z-0">
                 <a className="text-xl drop-shadow-lg text-center italic">We are keen to help you evolve your recruitment process..</a>
                 <h1 className="text-4xl drop-shadow-lg font-bold">Contact Us</h1>
