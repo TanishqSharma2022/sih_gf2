@@ -7,7 +7,7 @@ import { MdError } from "react-icons/md";
 import Select from "react-select";
 import { useId, useState } from "react";
 
-export const MultiSelectInput = ({ label, id }) => {
+export const MultiSelectInput = ({ name, label, id }) => {
   const options = [
     { value: "Tech", label: "Tech" },
     { value: "Household", label: "Household" },

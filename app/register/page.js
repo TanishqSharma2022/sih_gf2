@@ -11,17 +11,17 @@ import { MultiSelectInput } from "@/components/MultiSelect";
 
 export default function Register(){
 
-    const [name, setName] = useState("")
-    const [password, setpassword] = useState("")
-    const [email, setemail] = useState("")
+    // const [name, setName] = useState("")
+    // const [password, setpassword] = useState("")
+    // const [email, setemail] = useState("")
 
-    const [number, setnumber] = useState("")
-    const [dob, setdob] = useState("")
-    const [gender, setgender] = useState("")
-    const [caddress, setcaddress] = useState("")
-    const [paddress, setapddress] = useState("")
-    const [disability, setdisability] = useState("")
-    const [aadhaar, setaadhaar] = useState("")
+    // const [number, setnumber] = useState("")
+    // const [dob, setdob] = useState("")
+    // const [gender, setgender] = useState("")
+    // const [caddress, setcaddress] = useState("")
+    // const [paddress, setapddress] = useState("")
+    // const [disability, setdisability] = useState("")
+    // const [aadhaar, setaadhaar] = useState("")
 
     const gender_options = [
         {
@@ -46,6 +46,16 @@ export default function Register(){
             value: 'Not Applicable'
         },
         
+    ]
+    const job_location_options = [
+        {value: 'Delhi'},
+        {value: 'Mumbai'},
+        {value: 'Bangalore'},
+        {value: 'Chennai'},
+        {value: 'Kolkata'},
+        {value: 'Hyderabad'},
+        {value: 'Pune'},
+        {value: 'Ahmedabad'},
     ]
 
 const methods =useForm();
@@ -126,6 +136,7 @@ const onSubmit = methods.handleSubmit(data => {
           />
 
         <Input
+
             label="Current Address"
             type="text"
             name="current_address"
@@ -134,6 +145,7 @@ const onSubmit = methods.handleSubmit(data => {
             validation={{required: {value: true, message: 'Fill your Current Address'}}}
           />
           <Input
+
             label="Permanent Address"
             type="text"
             name="permanent_address"
@@ -159,6 +171,7 @@ const onSubmit = methods.handleSubmit(data => {
           />
 
           <MultiSelectInput
+          name="skills"
           label="Select your skills"
             className="w-full  p-4 rounded-xl"
             id="skills"
@@ -166,10 +179,19 @@ const onSubmit = methods.handleSubmit(data => {
           />
 
         <SelectInput
+            name="education"
           label="education"
           id="education"
           placeholder=""
           options={education_options}
+          />
+
+        <SelectInput
+            name="job_location"
+          label="preferred job locatioon"
+          id="job_location"
+          placeholder=""
+          options={job_location_options}
           />
         
         
@@ -181,7 +203,7 @@ const onSubmit = methods.handleSubmit(data => {
             onClick={onSubmit}
             className="bg-blue-500 text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer"
           >
-            Submit Form
+            Register
           </button>
 
 

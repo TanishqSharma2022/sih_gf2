@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { MdError } from "react-icons/md"
 import { useId } from "react"
 
-export const SelectInput = ({ label, id, placeholder, options }) => {
+export const SelectInput = ({ name, label, id, placeholder, options }) => {
     const {
         register,
         formState: { errors },
