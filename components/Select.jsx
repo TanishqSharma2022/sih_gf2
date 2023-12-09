@@ -1,8 +1,10 @@
+"use client"
 import { useFormContext } from "react-hook-form"
 import { findInputError } from "../utils/findInputError"
 import { isFormValid } from "../utils/isFormValid"
 import { motion, AnimatePresence } from "framer-motion"
 import { MdError } from "react-icons/md"
+import { useId } from "react"
 
 export const SelectInput = ({ label, id, placeholder, options }) => {
     const {
@@ -18,17 +20,17 @@ export const SelectInput = ({ label, id, placeholder, options }) => {
           <label htmlFor={id} className="py-4 text-md font-semibold capitalize ">
             {label}
           </label>
-          <AnimatePresence mode="wait" initial={false}>
+          {/* <AnimatePresence mode="wait" initial={false}>
           {isInvalid && (
             <InputError
               message={inputError.error.message}
               key={inputError.error.message}
             />
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
         </div>
         <select
-          id={id}
+        //   id={id}
 
           className="border p-4 rounded-xl "
           placeholder={placeholder}
@@ -41,7 +43,7 @@ export const SelectInput = ({ label, id, placeholder, options }) => {
         >
             {options.map((option) => 
 
-                    <option id={option.value} value={option.value}>{option.value}</option>
+                    <option key= { option.value} value={option.value}>{option.value}</option>
 
             )}
 

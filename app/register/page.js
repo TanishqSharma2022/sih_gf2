@@ -120,7 +120,6 @@ const onSubmit = methods.handleSubmit(data => {
 
           <SelectInput
           label="gender"
-          type="select"
           id="gender"
           placeholder=""
           options={gender_options}
@@ -168,7 +167,6 @@ const onSubmit = methods.handleSubmit(data => {
 
         <SelectInput
           label="education"
-
           id="education"
           placeholder=""
           options={education_options}
