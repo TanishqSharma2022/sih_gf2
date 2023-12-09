@@ -120,6 +120,15 @@ const onSubmit = methods.handleSubmit(data => {
 
           />
           <Input
+            label="username"
+            type="username"
+            name="username"
+            id="username"
+            placeholder="Add a unique username."
+            validation={{required: {value: true, message: 'Username is required'}}}
+
+          />
+          <Input
             label="date of birth"
             type="date"
             name="dob"
