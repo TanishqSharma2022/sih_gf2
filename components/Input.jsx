@@ -4,7 +4,7 @@ import { isFormValid } from "../utils/isFormValid"
 import { motion, AnimatePresence } from "framer-motion"
 import { MdError } from "react-icons/md"
 
-export const Input = ({ label, type, id, placeholder, validation, name }) => {
+export const Input = ({ label, type, id, placeholder, validation, name, onChange }) => {
     const {
         register,
         formState: { errors },
@@ -31,6 +31,7 @@ export const Input = ({ label, type, id, placeholder, validation, name }) => {
           type={type}
           className="border p-4 rounded-xl "
           placeholder={placeholder}
+          onChange={onChange}
           {...register(name, validation)}
         />
       </div>
