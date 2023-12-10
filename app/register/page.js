@@ -8,20 +8,12 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Select from "react-select";
 import { MultiSelectInput } from "@/components/MultiSelect";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function Register(){
 
-    // const [name, setName] = useState("")
-    // const [password, setpassword] = useState("")
-    // const [email, setemail] = useState("")
-
-    // const [number, setnumber] = useState("")
-    // const [dob, setdob] = useState("")
-    // const [gender, setgender] = useState("")
-    // const [caddress, setcaddress] = useState("")
-    // const [paddress, setapddress] = useState("")
-    // const [disability, setdisability] = useState("")
-    // const [aadhaar, setaadhaar] = useState("")
+    const router = useRouter();
 
     const gender_options = [
         {
@@ -59,8 +51,29 @@ export default function Register(){
     ]
 
 const methods =useForm();
-const onSubmit = methods.handleSubmit(data => {
-    console.log(data)
+const onSubmit = methods.handleSubmit(async(data) => {
+    try{
+        await axios.post("http://127.0.0.1:5000/add_user", JSON.stringify(data), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(function (response) {
+            console.log(response);
+            toast.success("User added successfully")
+            router.push("/otpauthentication")
+
+          })
+          .catch(function (error) {
+            console.log(error);
+            toast.error(error.response.data.error)
+          });
+
+    }catch(err){
+        console.log(err)
+        toast.error(err.response.data.error)
+
+    }
+
 });
 
 
@@ -74,17 +87,7 @@ const onSubmit = methods.handleSubmit(data => {
                         <div >
                             <FormProvider {...methods}>
                             <form className="py-12 flex flex-col" onSubmit={e => e.preventDefault()} noValidate>
-                            {/* <label className="py-4 text-md font-semibold ">Full Name</label>
-                            <input value={name} onChange={(event) => setName(event.target.value)} type="text" placeholder="What is your full name?" className="border p-4 rounded-xl "  />
-                            <label className="py-4 text-md font-semibold ">Email-ID</label>
-                            <input value={email} onChange={(event) => setemail(event.target.value)} type="email" placeholder="Enter your email id here." className="border p-4 rounded-xl "  />
-                            <label className="py-4 text-md font-semibold ">Password</label>
-                            <input value={password} onChange={(event) => setpassword(event.target.value)} type="password" placeholder="Create a new password for your account" className="border p-4 rounded-xl "  />
-                            <label className="py-4 text-md font-semibold ">Mobile Number</label>
-                            <input value={number} onChange={(event) => setnumber(event.target.value)} type="number" placeholder="Enter your Mobile No." className="border p-4 rounded-xl "  />
-                            <label className="py-4 text-md font-semibold ">Additional Information</label>
-                            <label className="py-4 text-md font-semibold ">Date of Birth</label>
-                            <input value={dob} onChange={(event) => setdob(event.target.value)} type="date" placeholder="Enter your Mobile No." className="border p-4 rounded-xl "  /> */}
+                            
 <div>
         <Input
             label="name"
@@ -120,6 +123,17 @@ const onSubmit = methods.handleSubmit(data => {
 
           />
           <Input
+            label="mobile"
+            type="mobile"
+            name="mobile"
+            id="mobile"
+            placeholder="Enter your email-address here."
+            validation={{required: {value: true, message: 'Email is required'}}}
+
+          />
+
+
+          <Input
             label="username"
             type="username"
             name="username"
@@ -128,7 +142,7 @@ const onSubmit = methods.handleSubmit(data => {
             validation={{required: {value: true, message: 'Username is required'}}}
 
           />
-          <Input
+          {/* <Input
             label="date of birth"
             type="date"
             name="dob"
@@ -203,7 +217,7 @@ const onSubmit = methods.handleSubmit(data => {
           options={job_location_options}
           />
         
-        
+         */}
         
         </div>
 
