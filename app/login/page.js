@@ -26,7 +26,8 @@ const Login = () => {
       if (response.status === 200) {
         console.log("LOGIN SUCCESSFUL...");
         const id = await axios.get("http://localhost:5000/get_user");
-        router.push(`/user/dashboard/${data.id}`);
+        router.push(`/user/dashboard/${response.data.id}`);
+        console.log(response.data.id)
 
         // Do something after successful login
       }

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
-import PropTypes from 'prop-types';
-import { Input as BaseInput, inputClasses } from '@mui/base/Input';
+import PropTypes from "prop-types";
+import { Input as BaseInput, inputClasses } from "@mui/base/Input";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -32,28 +32,21 @@ import {
   FormControlLabel,
   OutlinedInput,
   FormGroup,
-  
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Box, styled } from "@mui/system";
 import { Checkbox } from "@mui/material";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 // import { Checkbox } from "@/components/Checkbox";
 
 // import { makeStyles } from "@mui/system";
-
 
 // const useStyles = makeStyles((theme) => ({
 //   button: {
 //     marginRight: theme.spacing(1),
 //   },
 // }));
-
-
-
-
-
 
 const Input = React.forwardRef(function CustomInput(props, ref) {
   const { slots, ...other } = props;
@@ -83,12 +76,6 @@ Input.propTypes = {
   }),
 };
 
-
-
-
-
-
-
 function getSteps() {
   return [
     "Basic information",
@@ -97,26 +84,21 @@ function getSteps() {
   ];
 }
 
-
-
 const BasicForm = () => {
   const { control } = useFormContext();
 
   const [values, setValues] = useState({
-  
-    password: '',
+    password: "",
     showPassword: false,
   });
 
   const handleChange = (prop) => (event) => {
     const newPass = event.target.value;
-    console.log(newPass)
+    console.log(newPass);
     if (newPass.length >= 8) {
-    setValues({ ...values, [prop]: event.target.value });
-
-    }
-    else{
-      toast.error("Password must be at least 8 characters long")
+      setValues({ ...values, [prop]: event.target.value });
+    } else {
+      toast.error("Password must be at least 8 characters long");
     }
   };
 
@@ -138,7 +120,7 @@ const BasicForm = () => {
         name="fullName"
         render={({ field }) => (
           <TextField
-          required
+            required
             id="full-name"
             label="Full Name"
             variant="outlined"
@@ -155,8 +137,8 @@ const BasicForm = () => {
         name="email"
         render={({ field }) => (
           <TextField
-          required
-          type="email"
+            required
+            type="email"
             id="email"
             label="Email"
             variant="outlined"
@@ -172,16 +154,14 @@ const BasicForm = () => {
         control={control}
         name="password"
         render={({ field }) => (
-
-
           <Input
-          required
-          inputProps={{ minLength: 12 }}
+            required
+            inputProps={{ minLength: 12 }}
             id="outlined-adornment-password"
             className="w-full hover:border-black text-xl text-black py-2 mt-2 border-black"
-            type={values.showPassword ? 'text' : 'password'}
+            type={values.showPassword ? "text" : "password"}
             value={values.password}
-            onChange={(event)=> handleChange(event.target.value)}
+            onChange={(event) => handleChange(event.target.value)}
             placeholder="Create a new password here."
             endAdornment={
               <InputAdornment>
@@ -199,24 +179,18 @@ const BasicForm = () => {
                 </IconButton>
               </InputAdornment>
             }
-            
             {...field}
-      />
-
-
-        
-        
-        
+          />
         )}
       />
 
-<Controller
+      <Controller
         control={control}
         name="mobile"
         render={({ field }) => (
           <TextField
-          required
-          type="number"
+            required
+            type="number"
             id="mobile"
             label="Mobile"
             variant="outlined"
@@ -225,15 +199,8 @@ const BasicForm = () => {
             margin="normal"
             {...field}
           />
-     
-          
-
-        
-        
-        
         )}
       />
-
     </>
   );
 };
@@ -246,28 +213,20 @@ const MenuProps = {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
     },
-  },};
-
-
+  },
+};
 
 const PersonalForm = () => {
-  const names = [
-    'Technology',
-    'Household',
-    'Petroleum',
-    'Civil',
-    'Government',
-  ];
-  
-  const [gender, setGender] = useState({gender: ""});
-  const [education, setEducation] = useState({education: ""});
+  const names = ["Technology", "Household", "Petroleum", "Civil", "Government"];
+
+  const [gender, setGender] = useState({ gender: "" });
+  const [education, setEducation] = useState({ education: "" });
   const handleChange = (event) => {
     setGender(event.target.value);
   };
   const handleEducation = (event) => {
     setEducation(event.target.value);
   };
-
 
   const [personName, setPersonName] = React.useState([""]);
 
@@ -277,11 +236,10 @@ const PersonalForm = () => {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
-  
   const { control } = useFormContext();
   return (
     <>
@@ -305,20 +263,20 @@ const PersonalForm = () => {
         name="gender"
         render={({ field }) => (
           <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={gender}
-            label="Gender"
-            onChange={handleChange}
-            {...field}
-          >
-            <MenuItem value={'Male'}>Male</MenuItem>
-            <MenuItem value={'Female'}>Female</MenuItem>
-            <MenuItem value={'Others'}>Others</MenuItem>
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={gender}
+              label="Gender"
+              onChange={handleChange}
+              {...field}
+            >
+              <MenuItem value={"Male"}>Male</MenuItem>
+              <MenuItem value={"Female"}>Female</MenuItem>
+              <MenuItem value={"Others"}>Others</MenuItem>
+            </Select>
+          </FormControl>
         )}
       />
       <Controller
@@ -336,7 +294,7 @@ const PersonalForm = () => {
           />
         )}
       />
-    <Controller
+      <Controller
         control={control}
         name="dob"
         render={({ field }) => (
@@ -346,7 +304,9 @@ const PersonalForm = () => {
             name="dob"
             id="dob"
             placeholder="Enter your date of birth."
-            validation={{required: {value: true, message: 'Date of Birth is required'}}}
+            validation={{
+              required: { value: true, message: "Date of Birth is required" },
+            }}
             {...field}
           />
         )}
@@ -363,8 +323,11 @@ const PersonalForm = () => {
 
           //   {...field}
           // />
-<FormGroup>
-          <FormControlLabel control={<Checkbox {...field}/>} label="Do you have any disability?"  />
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox {...field} />}
+              label="Do you have any disability?"
+            />
           </FormGroup>
         )}
       />
@@ -373,7 +336,7 @@ const PersonalForm = () => {
         name="aadhaar"
         render={({ field }) => (
           <TextField
-          type="number"
+            type="number"
             id="aadhaar"
             label="Aadhaar Number"
             variant="outlined"
@@ -385,67 +348,60 @@ const PersonalForm = () => {
         )}
       />
 
-
       <Controller
         control={control}
         name="skills"
         render={({ field }) => (
-
-
           <FormControl className="w-full mt-4">
-        <InputLabel id="demo-multiple-name-label">Skills</InputLabel>
-          <Select
-          className="w-full"
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          multiple
-          value={personName}
-          onChange={multihandleChange}
-          input={<OutlinedInput label="Skills" />}
-          MenuProps={MenuProps}
-          {...field}
-
-        >
-          {names.map((name) => (
-            <MenuItem key={name} value={name}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-        
-</FormControl>
+            <InputLabel id="demo-multiple-name-label">Skills</InputLabel>
+            <Select
+              className="w-full"
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              multiple
+              value={personName}
+              onChange={multihandleChange}
+              input={<OutlinedInput label="Skills" />}
+              MenuProps={MenuProps}
+              {...field}
+            >
+              {names.map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         )}
       />
 
-
-<Controller
+      <Controller
         control={control}
         name="education"
         render={({ field }) => (
           <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Education</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={education}
-            label="Education"
-            onChange={handleEducation}
-            {...field}
-          >
-            <MenuItem value={'M. Tech'}>M. Tech</MenuItem>
-            <MenuItem value={'B. Tech'}>B. Tech</MenuItem>
-            <MenuItem value={'B. C. A'}>B. C. A</MenuItem>
-            <MenuItem value={'M. C. A'}>M. C. A</MenuItem>
-            <MenuItem value={'B. Sc.'}>B. Sc.</MenuItem>
-            <MenuItem value={'M. Sc.'}>M. Sc.</MenuItem>
-            <MenuItem value={'Not Applicable'}>Not Applicable</MenuItem>
-
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">Education</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={education}
+              label="Education"
+              onChange={handleEducation}
+              {...field}
+            >
+              <MenuItem value={"M. Tech"}>M. Tech</MenuItem>
+              <MenuItem value={"B. Tech"}>B. Tech</MenuItem>
+              <MenuItem value={"B. C. A"}>B. C. A</MenuItem>
+              <MenuItem value={"M. C. A"}>M. C. A</MenuItem>
+              <MenuItem value={"B. Sc."}>B. Sc.</MenuItem>
+              <MenuItem value={"M. Sc."}>M. Sc.</MenuItem>
+              <MenuItem value={"Not Applicable"}>Not Applicable</MenuItem>
+            </Select>
+          </FormControl>
         )}
       />
 
-<Controller
+      <Controller
         control={control}
         name="pj_location"
         render={({ field }) => (
@@ -460,11 +416,9 @@ const PersonalForm = () => {
           />
         )}
       />
-
     </>
   );
 };
-
 
 function getStepContent(step) {
   switch (step) {
@@ -472,18 +426,11 @@ function getStepContent(step) {
       return <BasicForm />;
     case 1:
       return <PersonalForm />;
-    
+
     default:
       return "unknown step";
   }
 }
-
-
-
-
-
-
-
 
 export default function Register() {
   // const [showOtp, setShowOtp] = useState(false);
@@ -543,13 +490,11 @@ export default function Register() {
   //             console.log(error)
   //           });
   //       }
-  // 
+  //
 
   // const classes = useStyles();
 
-const router = useRouter()
-
-
+  const router = useRouter();
 
   const [mobile, setMobile] = useState("");
   const methods = useForm({
@@ -561,15 +506,14 @@ const router = useRouter()
       gender: "",
       state: "",
       mobile: "",
-      dob:"",
+      dob: "",
       disable: false,
-      aadhaar:"",
+      aadhaar: "",
       skills: [],
       education: "",
       pj_location: "",
     },
-  })
-
+  });
 
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -585,22 +529,22 @@ const router = useRouter()
 
   const handleNext = (data) => {
     if (activeStep == steps.length - 1) {
-      axios.post("http://localhost:5000/add_user", JSON.stringify(data),  {
-        headers: {
-          'Content-Type': 'application/json'
-          // Add other headers if needed
-        }
-      })
-        .then(response => {
-          console.log('Response:', response.data);
-          toast.success("User added successfully")
-          
-          router.push("/login")
-          
+      axios
+        .post("http://localhost:5000/add_user", JSON.stringify(data), {
+          headers: {
+            "Content-Type": "application/json",
+            // Add other headers if needed
+          },
         })
-        .catch(error => {
-          console.error('Error:', error);
-          toast.error(error.response.data.error)
+        .then((response) => {
+          console.log("Response:", response.data);
+          toast.success("User added successfully");
+
+          router.push("/login");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toast.error(error.response.data.error);
         });
     } else {
       setActiveStep(activeStep + 1);
@@ -614,14 +558,12 @@ const router = useRouter()
     setActiveStep(activeStep - 1);
   };
 
-
   const handleSkip = () => {
     if (!isStepSkipped(activeStep)) {
       setSkippedSteps([...skippedSteps, activeStep]);
     }
     setActiveStep(activeStep + 1);
   };
-
 
   // const onSubmit = methods.handleSubmit(async (data) => {
   //   // try{
@@ -658,50 +600,53 @@ const router = useRouter()
             Register here and grow your career
           </h1>
           <div className="mt-6">
-          <Stepper alternativeLabel activeStep={activeStep}>
-        {steps.map((step, index) => {
-          const labelProps = {};
-          const stepProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography
-                variant="caption"
-                align="center"
-                style={{ display: "block" }}
-              >
-                optional
+            <Stepper alternativeLabel activeStep={activeStep}>
+              {steps.map((step, index) => {
+                const labelProps = {};
+                const stepProps = {};
+                if (isStepOptional(index)) {
+                  labelProps.optional = (
+                    <Typography
+                      variant="caption"
+                      align="center"
+                      style={{ display: "block" }}
+                    >
+                      optional
+                    </Typography>
+                  );
+                }
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
+                return (
+                  <Step {...stepProps} key={index}>
+                    <StepLabel {...labelProps}>{step}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+
+            {activeStep === steps.length ? (
+              <Typography variant="h3" align="center">
+                Thank You
               </Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step {...stepProps} key={index}>
-              <StepLabel {...labelProps}>{step}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+            ) : (
+              <>
+                <FormProvider {...methods}>
+                  <form
+                    className=""
+                    onSubmit={methods.handleSubmit(handleNext)}
+                  >
+                    {getStepContent(activeStep)}
 
-      {activeStep === steps.length ? (
-        <Typography variant="h3" align="center">
-          Thank You
-        </Typography>
-      ) : (
-        <>
-          <FormProvider {...methods}>
-            <form className="" onSubmit={methods.handleSubmit(handleNext)}>
-              {getStepContent(activeStep)}
-
-              <Button
-                className="mt-4"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-              >
-                back
-              </Button>
-              {/* {isStepOptional(activeStep) && (
+                    <Button
+                      className="mt-4"
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                    >
+                      back
+                    </Button>
+                    {/* {isStepOptional(activeStep) && (
                 <Button
                   className=""
                   variant="contained"
@@ -711,22 +656,19 @@ const router = useRouter()
                   skip
                 </Button>
               )} */}
-              <Button
-                className="text-black hover:text-white mt-4"
-                variant="contained"
-                color="primary"
-                // onClick={handleNext}
-                type="submit"
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </form>
-          </FormProvider>
-        </>
-      )}
-
-
-            
+                    <Button
+                      className="text-black hover:text-white mt-4"
+                      variant="contained"
+                      color="primary"
+                      // onClick={handleNext}
+                      type="submit"
+                    >
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  </form>
+                </FormProvider>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -734,43 +676,38 @@ const router = useRouter()
   );
 }
 
-
-
-
-
-
 const blue = {
-  100: '#DAECFF',
-  200: '#80BFFF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0059B2',
+  100: "#DAECFF",
+  200: "#80BFFF",
+  400: "#3399FF",
+  500: "#007FFF",
+  600: "#0072E5",
+  700: "#0059B2",
 };
 
 const grey = {
-  50: '#F3F6F9',
-  100: '#E5EAF2',
-  200: '#DAE2ED',
-  300: '#C7D0DD',
-  400: '#B0B8C4',
-  500: '#9DA8B7',
-  600: '#6B7A90',
-  700: '#434D5B',
-  800: '#303740',
-  900: '#1C2025',
+  50: "#F3F6F9",
+  100: "#E5EAF2",
+  200: "#DAE2ED",
+  300: "#C7D0DD",
+  400: "#B0B8C4",
+  500: "#9DA8B7",
+  600: "#6B7A90",
+  700: "#434D5B",
+  800: "#303740",
+  900: "#1C2025",
 };
 
-const InputRoot = styled('div')(
+const InputRoot = styled("div")(
   ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   border-radius: 8px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  color: ${theme.palette.mode === "dark" ? grey[300] : grey[500]};
+  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
+  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
   box-shadow: 0px 2px 4px ${
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+    theme.palette.mode === "dark" ? "rgba(0,0,0, 0.5)" : "rgba(0,0,0, 0.05)"
   };
   display: flex;
   align-items: center;
@@ -779,7 +716,9 @@ const InputRoot = styled('div')(
 
   &.${inputClasses.focused} {
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === "dark" ? blue[600] : blue[200]
+    };
   }
 
   &:hover {
@@ -790,27 +729,24 @@ const InputRoot = styled('div')(
   &:focus-visible {
     outline: 0;
   }
-`,
+`
 );
 
-
-const InputElement = styled('input')(
+const InputElement = styled("input")(
   ({ theme }) => `
   font-size: 0.875rem;
   font-family: inherit;
   font-weight: 400;
   line-height: 1.5;
   flex-grow: 1;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
   background: inherit;
   border: none;
   border-radius: inherit;
   padding: 8px 12px;
   outline: 0;
-`,
+`
 );
-
-
 
 const IconButton = styled(Button)(
   ({ theme }) => `
@@ -820,11 +756,11 @@ const IconButton = styled(Button)(
   border: none;
   background: inherit;
   cursor: pointer;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[700]};
-  `,
+  color: ${theme.palette.mode === "dark" ? grey[300] : grey[700]};
+  `
 );
 
-const InputAdornment = styled('div')`
+const InputAdornment = styled("div")`
   margin: 8px;
   display: inline-flex;
   align-items: center;
