@@ -1,353 +1,832 @@
 "use client";
+import * as React from "react";
+import PropTypes from 'prop-types';
+import { Input as BaseInput, inputClasses } from '@mui/base/Input';
 
-import { Input } from "@/components/Input";
-import { Checkbox } from "@/components/Checkbox";
-import { SelectInput } from "@/components/Select";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import Select from "react-select";
-import { MultiSelectInput } from "@/components/MultiSelect";
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFormContext,
+} from "react-hook-form";
+
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { auth } from "../firebase.config";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import { useRouter } from "next/navigation";
+// import { auth } from "../firebase.config";
+// import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import OTPInput from "react-otp-input";
-
-export default function Register() {
-  const router = useRouter();
-const [showOtp, setShowOtp] = useState(false);
-const [mobile, setMobile] = useState("");
-  const gender_options = [
-    {
-      value: "Male",
-    },
-    {
-      value: "Female",
-    },
-    {
-      value: "Others",
-    },
-  ];
-  const education_options = [
-    {
-      value: "M. Tech",
-    },
-    {
-      value: "M. Sc.",
-    },
-    {
-      value: "Not Applicable",
-    },
-  ];
-  const job_location_options = [
-    { value: "Delhi" },
-    { value: "Mumbai" },
-    { value: "Bangalore" },
-    { value: "Chennai" },
-    { value: "Kolkata" },
-    { value: "Hyderabad" },
-    { value: "Pune" },
-    { value: "Ahmedabad" },
-  ];
-
-  const [otp, setOtp] = useState("");
-
-
-
-
-
-// OTP VERIFICATION FIREBASE 
-
-//   function onCaptcha() {
-//     if (!window.recaptchaVerifier) {
-//       window.recaptchaVerifier = new RecaptchaVerifier(
-//         auth,
-//         "recaptcha-container",
-//         {
-//           size: "invisible",
-//           callback: (response) => {
-//             onSignup();
-//             // ...
-//           },
-//           "expired-callback": () => {
-//             // Response expired. Ask user to solve reCAPTCHA again.
-//             // ...
-//             onCaptcha()
-//           },
-//         },
-//         auth
-//       );
-//     }
-//   }
-
-//     function onSignup(){
-
-//         onCaptcha();
-//         const appVerifier = window.recaptchaVerifier;
-//         const format = '+91'+mobile;
-//         signInWithPhoneNumber(auth, format, appVerifier)
-//           .then((confirmationResult) => {
-//             window.confirmationResult = confirmationResult;
-//             setShowOtp(true);
-//             toast.success("OTP sent successfully");
-    
-//             // ...
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//             toast.error(error)            // ...
-//           });
-//     }
-
-//     function OTPVerify() {
-//         window.confirmationResult.confirm(otp).then(async (result) => {
-//             // User signed in successfully.
-//             const user = result.user;
-//             console.log(user, "Otp verified");
-//             setShowOtp(false);
-//             // ...
-//           })
-//           .catch((error) => {
-//             toast.error("Invalid OTP")
-//             console.log(error)
-//           });
-//       }
+import Link from "next/link";
+import {
+  Typography,
+  TextField,
+  Button,
+  Stepper,
+  Step,
+  StepLabel,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  OutlinedInput,
+  FormGroup,
   
-  const methods = useForm();
-  const onSubmit = methods.handleSubmit(async (data) => {
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Box, styled } from "@mui/system";
+import { Checkbox } from "@mui/material";
+import {useRouter} from "next/navigation";
+
+// import { Checkbox } from "@/components/Checkbox";
+
+// import { makeStyles } from "@mui/system";
 
 
-   
-    // try{
-    //     await axios.post("http://127.0.0.1:5000/add_user", JSON.stringify(data), {
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         }
-    //       }).then(function (response) {
-    //         console.log(response);
-    //         toast.success("User added successfully")
-    //         router.push("/otpauthentication")
+// const useStyles = makeStyles((theme) => ({
+//   button: {
+//     marginRight: theme.spacing(1),
+//   },
+// }));
 
-    //       })
-    //       .catch(function (error) {
-    //         console.log(error);
-    //         toast.error(error.response.data.error)
-    //       });
 
-    // }catch(err){
-    //     console.log(err)
-    //     toast.error(err.response.data.error)
 
-    // }
 
-    
-        console.log(data);
-        toast.success("User added successfully")
+
+
+const Input = React.forwardRef(function CustomInput(props, ref) {
+  const { slots, ...other } = props;
+  return (
+    <BaseInput
+      slots={{
+        root: InputRoot,
+        input: InputElement,
+        ...slots,
+      }}
+      {...other}
+      ref={ref}
+    />
+  );
+});
+
+Input.propTypes = {
+  /**
+   * The components used for each slot inside the InputBase.
+   * Either a string to use a HTML element or a component.
+   * @default {}
+   */
+  slots: PropTypes.shape({
+    input: PropTypes.elementType,
+    root: PropTypes.elementType,
+    textarea: PropTypes.elementType,
+  }),
+};
+
+
+
+
+
+
+
+function getSteps() {
+  return [
+    "Basic information",
+    // "Contact Information",
+    "Personal Information",
+  ];
+}
+
+
+
+const BasicForm = () => {
+  const { control } = useFormContext();
+
+  const [values, setValues] = useState({
+  
+    password: '',
+    showPassword: false,
   });
 
-  
+  const handleChange = (prop) => (event) => {
+    const newPass = event.target.value;
+    console.log(newPass)
+    if (newPass.length >= 8) {
+    setValues({ ...values, [prop]: event.target.value });
+
+    }
+    else{
+      toast.error("Password must be at least 8 characters long")
+    }
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <>
-      <div className="w-full grid place-items-center p-4">
-         <div className="w-full md:w-[50%] border rounded-xl shadow-xl  p-6 md:p-12">
-          <h1 className="font-semibold  text-xl">
-            Register here and grow your career
-          </h1>
-          <div>
-            <FormProvider {...methods}>
-              <form
-                className="py-12 flex flex-col"
-                onSubmit={(e) => e.preventDefault()}
-                noValidate
-              >
-                {!showOtp &&
-                <div>
-                <div>
-                  <Input
-                    label="name"
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="What is your full name?"
-                    validation={{
-                      required: { value: true, message: "Name is required" },
-                    }}
-                  />
-                  <Input
-                    label="password"
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Create a new password here."
-                    validation={{
-                      required: {
-                        value: true,
-                        message: "Password is required",
-                      },
-                      minLength: {
-                        value: 8,
-                        message: "Password must be at least 8 characters long",
-                      },
-                    }}
-                  />
-                  <Input
-                    label="email"
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Enter your email-address here."
-                    validation={{
-                      required: { value: true, message: "Email is required" },
-                    }}
-                  />
-                  <Input
-                    label="mobile"
-                    type="mobile"
-                    name="mobile"
-                    id="mobile"
-                    onChange={(e) => setMobile(e.target.value)}
-                    placeholder="Enter your email-address here."
-                    validation={{
-                      required: { value: true, message: "Email is required" },
-                    }}
-                  />
-                  <div id="recaptcha-container"></div>
+      <Controller
+        control={control}
+        name="fullName"
+        render={({ field }) => (
+          <TextField
+          required
+            id="full-name"
+            label="Full Name"
+            variant="outlined"
+            placeholder="Enter Your Full Name"
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
 
-                  <Input
-                    label="username"
-                    type="username"
-                    name="username"
-                    id="username"
-                    placeholder="Add a unique username."
-                    validation={{
-                      required: {
-                        value: true,
-                        message: "Username is required",
-                      },
-                    }}
-                  />
+      <Controller
+        control={control}
+        name="email"
+        render={({ field }) => (
+          <TextField
+          required
+          type="email"
+            id="email"
+            label="Email"
+            variant="outlined"
+            placeholder="Enter Your Email."
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
 
-                    <button onClick={() => console.log(mobile)}>Send OTP</button>
+      <Controller
+        control={control}
+        name="password"
+        render={({ field }) => (
 
 
+          <Input
+          required
+          inputProps={{ minLength: 12 }}
+            id="outlined-adornment-password"
+            className="w-full hover:border-black text-xl text-black py-2 mt-2 border-black"
+            type={values.showPassword ? 'text' : 'password'}
+            value={values.password}
+            onChange={(event)=> handleChange(event.target.value)}
+            placeholder="Create a new password here."
+            endAdornment={
+              <InputAdornment>
+                <IconButton
+                  size="small"
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? (
+                    <VisibilityOff fontSize="small" />
+                  ) : (
+                    <Visibility fontSize="small" />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+            
+            {...field}
+      />
+
+
+        
+        
+        
+        )}
+      />
+
+<Controller
+        control={control}
+        name="mobile"
+        render={({ field }) => (
+          <TextField
+          required
+          type="number"
+            id="mobile"
+            label="Mobile"
+            variant="outlined"
+            placeholder="Enter your mobile number here."
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+     
+          
+
+        
+        
+        
+        )}
+      />
+
+    </>
+  );
+};
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },};
 
 
 
+const PersonalForm = () => {
+  const names = [
+    'Technology',
+    'Household',
+    'Petroleum',
+    'Civil',
+    'Government',
+  ];
+  
+  const [gender, setGender] = useState({gender: ""});
+  const [education, setEducation] = useState({education: ""});
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
+  const handleEducation = (event) => {
+    setEducation(event.target.value);
+  };
 
-                  {/* <Input
+
+  const [personName, setPersonName] = React.useState([""]);
+
+  const multihandleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
+  
+  const { control } = useFormContext();
+  return (
+    <>
+      <Controller
+        control={control}
+        name="address"
+        render={({ field }) => (
+          <TextField
+            id="address"
+            label="Address"
+            variant="outlined"
+            placeholder="Enter Your Address 1"
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="gender"
+        render={({ field }) => (
+          <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={gender}
+            label="Gender"
+            onChange={handleChange}
+            {...field}
+          >
+            <MenuItem value={'Male'}>Male</MenuItem>
+            <MenuItem value={'Female'}>Female</MenuItem>
+            <MenuItem value={'Others'}>Others</MenuItem>
+          </Select>
+        </FormControl>
+        )}
+      />
+      <Controller
+        control={control}
+        name="state"
+        render={({ field }) => (
+          <TextField
+            id="state"
+            label="State"
+            variant="outlined"
+            placeholder="Enter Your State Name"
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
+    <Controller
+        control={control}
+        name="dob"
+        render={({ field }) => (
+          <Input
             label="date of birth"
             type="date"
             name="dob"
             id="dob"
             placeholder="Enter your date of birth."
             validation={{required: {value: true, message: 'Date of Birth is required'}}}
+            {...field}
           />
-
-          <SelectInput
-          label="gender"
-          id="gender"
-          placeholder=""
-          options={gender_options}
-          />
-
-        <Input
-
-            label="Current Address"
-            type="text"
-            name="current_address"
-            id="caddress"
-            placeholder="What is your current address?"
-            validation={{required: {value: true, message: 'Fill your Current Address'}}}
-          />
-          <Input
-
-            label="Permanent Address"
-            type="text"
-            name="permanent_address"
-            id="paddress"
-            placeholder="What is your permanent address?"
-            validation={{required: {value: true, message: 'Fill your Permanent Address'}}}
-          />
-          <Checkbox
-            label="Do you have any disability?"
-            type="checkbox"
-            name="disable"
-            id="disable"
-            placeholder=""
-            validation={{}}
-          />
-          <Input
-            label="Aadhaar Number"
-            type="number"
-            name="aadhaar_no"
-            id="aadhaar"
-            placeholder="Enter your Aadhaar number."
-            validation={{required: {value: true, message: 'Enter your Aadhaar Number'}}}
-          />
-
-          <MultiSelectInput
-          name="skills"
-          label="Select your skills"
-            className="w-full  p-4 rounded-xl"
-            id="skills"
-            
-          />
-
-        <SelectInput
-            name="education"
-          label="education"
-          id="education"
-          placeholder=""
-          options={education_options}
-          />
-
-        <SelectInput
-            name="job_location"
-          label="preferred job locatioon"
-          id="job_location"
-          placeholder=""
-          options={job_location_options}
-          />
-        
-         */}
-                </div>
-
-                <button
-                  onClick={onSubmit}
-                  className="bg-blue-500 text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer"
-                >
-                  Register
-                </button>
-                </div>
-            }
-            {showOtp && 
-        <div className="border w-full h-[100vh] grid place-items-center">
-        <div className="w-full grid place-items-center gap-12">
-      <OTPInput
-        inputStyle=" rounded-xl h-12 !w-14 text-3xl border shadow-lg text-lg visible text-black"
-        containerStyle="flex gap-4 "
-        value={otp}
-        onChange={setOtp}
-        numInputs={6}
-        inputType="number"
-        renderSeparator={<span>-</span>}
-        renderInput={(props) => <input {...props} />}
-        shouldAutoFocus
-        isInputNum
-
+        )}
       />
-      <button className="border rounded-xl p-4 px-6 shadow-lg" onClick={OTPVerify}>Verify OTP</button>
-      </div>
-    </div>}
-</form>
-            </FormProvider>
+      <Controller
+        control={control}
+        name="disable"
+        render={({ field }) => (
+          // <Checkbox
+          //   label="Do you have any disability?"
+          //   type="checkbox"
+          //   name="disable"
+          //   id="disable"
+
+          //   {...field}
+          // />
+<FormGroup>
+          <FormControlLabel control={<Checkbox {...field}/>} label="Do you have any disability?"  />
+          </FormGroup>
+        )}
+      />
+      <Controller
+        control={control}
+        name="aadhaar"
+        render={({ field }) => (
+          <TextField
+          type="number"
+            id="aadhaar"
+            label="Aadhaar Number"
+            variant="outlined"
+            placeholder="Enter Your Aadhaar Number"
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
+
+
+      <Controller
+        control={control}
+        name="skills"
+        render={({ field }) => (
+
+
+          <FormControl className="w-full mt-4">
+        <InputLabel id="demo-multiple-name-label">Skills</InputLabel>
+          <Select
+          className="w-full"
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          multiple
+          value={personName}
+          onChange={multihandleChange}
+          input={<OutlinedInput label="Skills" />}
+          MenuProps={MenuProps}
+          {...field}
+
+        >
+          {names.map((name) => (
+            <MenuItem key={name} value={name}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+        
+</FormControl>
+        )}
+      />
+
+
+<Controller
+        control={control}
+        name="education"
+        render={({ field }) => (
+          <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Education</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={education}
+            label="Education"
+            onChange={handleEducation}
+            {...field}
+          >
+            <MenuItem value={'M. Tech'}>M. Tech</MenuItem>
+            <MenuItem value={'B. Tech'}>B. Tech</MenuItem>
+            <MenuItem value={'B. C. A'}>B. C. A</MenuItem>
+            <MenuItem value={'M. C. A'}>M. C. A</MenuItem>
+            <MenuItem value={'B. Sc.'}>B. Sc.</MenuItem>
+            <MenuItem value={'M. Sc.'}>M. Sc.</MenuItem>
+            <MenuItem value={'Not Applicable'}>Not Applicable</MenuItem>
+
+          </Select>
+        </FormControl>
+        )}
+      />
+
+<Controller
+        control={control}
+        name="pj_location"
+        render={({ field }) => (
+          <TextField
+            id="pj_location"
+            label="Preferred Job Location"
+            variant="outlined"
+            placeholder="Enter Your Preferred Job Locatioon"
+            fullWidth
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
+
+    </>
+  );
+};
+
+
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return <BasicForm />;
+    case 1:
+      return <PersonalForm />;
+    
+    default:
+      return "unknown step";
+  }
+}
+
+
+
+
+
+
+
+
+export default function Register() {
+  // const [showOtp, setShowOtp] = useState(false);
+  // const [otp, setOtp] = useState("");
+  // OTP VERIFICATION FIREBASE
+  //   function onCaptcha() {
+  //     if (!window.recaptchaVerifier) {
+  //       window.recaptchaVerifier = new RecaptchaVerifier(
+  //         auth,
+  //         "recaptcha-container",
+  //         {
+  //           size: "invisible",
+  //           callback: (response) => {
+  //             onSignup();
+  //             // ...
+  //           },
+  //           "expired-callback": () => {
+  //             // Response expired. Ask user to solve reCAPTCHA again.
+  //             // ...
+  //             onCaptcha()
+  //           },
+  //         },
+  //         auth
+  //       );
+  //     }
+  //   }
+
+  //     function onSignup(){
+
+  //         onCaptcha();
+  //         const appVerifier = window.recaptchaVerifier;
+  //         const format = '+91'+mobile;
+  //         signInWithPhoneNumber(auth, format, appVerifier)
+  //           .then((confirmationResult) => {
+  //             window.confirmationResult = confirmationResult;
+  //             setShowOtp(true);
+  //             toast.success("OTP sent successfully");
+
+  //             // ...
+  //           })
+  //           .catch((error) => {
+  //             console.log(error);
+  //             toast.error(error)            // ...
+  //           });
+  //     }
+
+  //     function OTPVerify() {
+  //         window.confirmationResult.confirm(otp).then(async (result) => {
+  //             // User signed in successfully.
+  //             const user = result.user;
+  //             console.log(user, "Otp verified");
+  //             setShowOtp(false);
+  //             // ...
+  //           })
+  //           .catch((error) => {
+  //             toast.error("Invalid OTP")
+  //             console.log(error)
+  //           });
+  //       }
+  // 
+
+  // const classes = useStyles();
+
+const router = useRouter()
+
+
+
+  const [mobile, setMobile] = useState("");
+  const methods = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      address: "",
+      gender: "",
+      state: "",
+      mobile: "",
+      dob:"",
+      disable: false,
+      aadhaar:"",
+      skills: [],
+      education: "",
+      pj_location: "",
+    },
+  })
+
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [skippedSteps, setSkippedSteps] = useState([]);
+  const steps = getSteps();
+
+  const isStepOptional = (step) => {
+    return step === 1 || step === 2;
+  };
+
+  const isStepSkipped = (step) => {
+    return skippedSteps.includes(step);
+  };
+
+  const handleNext = (data) => {
+    if (activeStep == steps.length - 1) {
+      axios.post("http://localhost:5000/add_user", JSON.stringify(data),  {
+        headers: {
+          'Content-Type': 'application/json'
+          // Add other headers if needed
+        }
+      })
+        .then(response => {
+          console.log('Response:', response.data);
+          toast.success("User added successfully")
+          
+          router.push("/login")
+          
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          toast.error(error.response.data.error)
+        });
+    } else {
+      setActiveStep(activeStep + 1);
+      setSkippedSteps(
+        skippedSteps.filter((skipItem) => skipItem !== activeStep)
+      );
+    }
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
+
+  const handleSkip = () => {
+    if (!isStepSkipped(activeStep)) {
+      setSkippedSteps([...skippedSteps, activeStep]);
+    }
+    setActiveStep(activeStep + 1);
+  };
+
+
+  // const onSubmit = methods.handleSubmit(async (data) => {
+  //   // try{
+  //   //     await axios.post("http://127.0.0.1:5000/add_user", JSON.stringify(data), {
+  //   //         headers: {
+  //   //           'Content-Type': 'application/json'
+  //   //         }
+  //   //       }).then(function (response) {
+  //   //         console.log(response);
+  //   //         toast.success("User added successfully")
+  //   //         router.push("/otpauthentication")
+
+  //   //       })
+  //   //       .catch(function (error) {
+  //   //         console.log(error);
+  //   //         toast.error(error.response.data.error)
+  //   //       });
+
+  //   // }catch(err){
+  //   //     console.log(err)
+  //   //     toast.error(err.response.data.error)
+
+  //   // }
+
+  //   console.log(data);
+  //   toast.success("User added successfully");
+  // });
+
+  return (
+    <>
+      <div className="w-full grid place-items-center p-4">
+        <div className="w-full md:w-[50%] md:min-w-[500px] border rounded-xl shadow-xl  p-6 md:p-12">
+          <h1 className="font-semibold  text-xl">
+            Register here and grow your career
+          </h1>
+          <div className="mt-6">
+          <Stepper alternativeLabel activeStep={activeStep}>
+        {steps.map((step, index) => {
+          const labelProps = {};
+          const stepProps = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = (
+              <Typography
+                variant="caption"
+                align="center"
+                style={{ display: "block" }}
+              >
+                optional
+              </Typography>
+            );
+          }
+          if (isStepSkipped(index)) {
+            stepProps.completed = false;
+          }
+          return (
+            <Step {...stepProps} key={index}>
+              <StepLabel {...labelProps}>{step}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+
+      {activeStep === steps.length ? (
+        <Typography variant="h3" align="center">
+          Thank You
+        </Typography>
+      ) : (
+        <>
+          <FormProvider {...methods}>
+            <form className="" onSubmit={methods.handleSubmit(handleNext)}>
+              {getStepContent(activeStep)}
+
+              <Button
+                className="mt-4"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+              >
+                back
+              </Button>
+              {/* {isStepOptional(activeStep) && (
+                <Button
+                  className=""
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSkip}
+                >
+                  skip
+                </Button>
+              )} */}
+              <Button
+                className="text-black hover:text-white mt-4"
+                variant="contained"
+                color="primary"
+                // onClick={handleNext}
+                type="submit"
+              >
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
+            </form>
+          </FormProvider>
+        </>
+      )}
+
+
+            
           </div>
         </div>
-
-        
       </div>
     </>
   );
 }
+
+
+
+
+
+
+const blue = {
+  100: '#DAECFF',
+  200: '#80BFFF',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+  700: '#0059B2',
+};
+
+const grey = {
+  50: '#F3F6F9',
+  100: '#E5EAF2',
+  200: '#DAE2ED',
+  300: '#C7D0DD',
+  400: '#B0B8C4',
+  500: '#9DA8B7',
+  600: '#6B7A90',
+  700: '#434D5B',
+  800: '#303740',
+  900: '#1C2025',
+};
+
+const InputRoot = styled('div')(
+  ({ theme }) => `
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  border-radius: 8px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 2px 4px ${
+    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+  };
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  &.${inputClasses.focused} {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+  }
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`,
+);
+
+
+const InputElement = styled('input')(
+  ({ theme }) => `
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 1.5;
+  flex-grow: 1;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: inherit;
+  border: none;
+  border-radius: inherit;
+  padding: 8px 12px;
+  outline: 0;
+`,
+);
+
+
+
+const IconButton = styled(Button)(
+  ({ theme }) => `
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: inherit;
+  cursor: pointer;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[700]};
+  `,
+);
+
+const InputAdornment = styled('div')`
+  margin: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
