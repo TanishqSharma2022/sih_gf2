@@ -10,7 +10,7 @@ export default function Page() {
   useEffect(() => {
     const getData = async () => {
     //   const { data } = await supabase.auth.getUser()
-      const { data } = await supabase.auth.user()
+      const { data } = await supabase.auth.getUser()
       
       setUser(data)
     }

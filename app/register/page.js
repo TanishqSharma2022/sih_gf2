@@ -552,13 +552,30 @@ export default function Register() {
       try{
   
         await supabase.auth.signUp({email,
-          password, name, mobile, state, address, aadhaar, dob, skills, pj_location, gender, disable, education,
+          password,
           options: {
             emailRedirectTo: `${location.origin}/auth/callback`,
-          },
+          }, 
+            data: {
+              email,
+              name,
+              mobile,
+              state,
+              address,
+              aadhaar,
+              dob,
+              skills,
+              pj_location,
+              gender,
+              disable,
+              education,
+            }
+          
         })
 
+        await supabase.from('sih').insert([{ "name": name , "email" : email , "mobile" : mobile , "aadhaar" : aadhaar , "address" : address , "disable" : disable , "dob" : dob , "education" : education , "pj_location" : pj_location , "skills" : skills , "state" : state , "gender" : gender}]).select()
         toast.success("Email sent to your email address. Please verify your email address to continue.");
+        //console.log({data})
         router.refresh()
         }catch(e){
           console.log(e)
