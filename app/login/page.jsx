@@ -1,40 +1,92 @@
 "use client";
 
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Input } from "@/components/Input";
 import { Checkbox } from "@/components/Checkbox";
 import { SelectInput } from "@/components/Select";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Select from "react-select";
 import { MultiSelectInput } from "@/components/MultiSelect";
 import { useRouter } from "next/navigation";
+import { create } from '@mui/material/styles/createTransitions';
+import toast from 'react-hot-toast';
+// import supabase from "@/supabase";
+
+
 
 const Login = () => {
   const router = useRouter();
 
   const methods = useForm();
+
+
+  const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+const supabase = createClientComponentClient()  
+useEffect(() =>  {
+  async function getUser(){
+    const {data: {user}} = await supabase.auth.getUser()
+    setUser(user)
+    setLoading(false)
+  }
+
+  getUser()
+}, [])
+
+console.log(user, loading)
+
   const onSubmit = methods.handleSubmit(async (data) => {
     console.log(data);
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
-        email: data.email,
-        password: data.password,
-      });
 
-      if (response.status === 200) {
-        console.log("LOGIN SUCCESSFUL...");
-        const id = await axios.get("http://localhost:5000/get_user");
-        router.push(`/user/dashboard/${response.data.id}`);
-        console.log(response.data.id)
+// supabase logic 
+      const email = data.email;
+      const password = data.password;
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      router.refresh()
+      console.log("logged in ")
+
+
+      router.push(`/client`)
+
+      
+
+      // const response = await axios.post("http://localhost:5000/login", {
+      //   email: data.email,
+      //   password: data.password,
+      // });
+
+      // if (response.status === 200) {
+      //   console.log("LOGIN SUCCESSFUL...");
+      //   const id = await axios.get("http://localhost:5000/get_user");
+      //   router.push(`/user/dashboard/${response.data.id}`);
+      //   console.log(response.data.id)
 
         // Do something after successful login
-      }
+      // }
     } catch (error) {
       console.error("Login failed:", error.response.data.error);
+      toast.error("Wrong email or password")
     }
   });
+
+  if(loading){
+    console.log("Loading")
+    return(
+    <>
+      Loading..
+    </>)
+  }
+
+  // if(user){
+  // }
+
 
   return (
     <>

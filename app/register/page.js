@@ -37,16 +37,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Box, styled } from "@mui/system";
 import { Checkbox } from "@mui/material";
 import { useRouter } from "next/navigation";
-
-// import { Checkbox } from "@/components/Checkbox";
-
-// import { makeStyles } from "@mui/system";
-
-// const useStyles = makeStyles((theme) => ({
-//   button: {
-//     marginRight: theme.spacing(1),
-//   },
-// }));
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+// import supabase from "@/supabase";
 
 const Input = React.forwardRef(function CustomInput(props, ref) {
   const { slots, ...other } = props;
@@ -86,21 +78,25 @@ function getSteps() {
 
 const BasicForm = () => {
   const { control } = useFormContext();
-
+  const [password, setPassword] = useState("");
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
 
   const handleChange = (prop) => (event) => {
+
     const newPass = event.target.value;
     console.log(newPass);
+
     if (newPass.length >= 8) {
       setValues({ ...values, [prop]: event.target.value });
     } else {
       toast.error("Password must be at least 8 characters long");
     }
-  };
+  }
+
+  
 
   const handleClickShowPassword = () => {
     setValues({
@@ -154,32 +150,37 @@ const BasicForm = () => {
         control={control}
         name="password"
         render={({ field }) => (
-          <Input
-            required
-            inputProps={{ minLength: 12 }}
-            id="outlined-adornment-password"
-            className="w-full hover:border-black text-xl text-black py-2 mt-2 border-black"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={(event) => handleChange(event.target.value)}
-            placeholder="Create a new password here."
-            endAdornment={
-              <InputAdornment>
-                <IconButton
-                  size="small"
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {values.showPassword ? (
-                    <VisibilityOff fontSize="small" />
-                  ) : (
-                    <Visibility fontSize="small" />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-            {...field}
+          <TextField
+          required
+          type="password"
+          id="password"
+          label="Password"
+          variant="outlined"
+          placeholder="Create a new password here."
+          fullWidth
+          margin="normal"
+          inputProps={{
+            minLength: 8,
+          }}
+          // InputProps={{
+          //   endAdornment: (
+          //     <InputAdornment>
+          //       <IconButton
+          //         size="small"
+          //         aria-label="toggle password visibility"
+          //         onClick={handleClickShowPassword}
+          //         onMouseDown={handleMouseDownPassword}
+          //       >
+          //         {values.showPassword ? (
+          //           <VisibilityOff fontSize="small" />
+          //         ) : (
+          //           <Visibility fontSize="small" />
+          //         )}
+          //       </IconButton>
+          //     </InputAdornment>
+          //   )
+          // }}
+          {...field}
           />
         )}
       />
@@ -192,7 +193,7 @@ const BasicForm = () => {
             required
             type="number"
             id="mobile"
-            label="Mobile"
+            label="Mobile Number"
             variant="outlined"
             placeholder="Enter your mobile number here."
             fullWidth
@@ -203,7 +204,7 @@ const BasicForm = () => {
       />
     </>
   );
-};
+}
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -496,7 +497,6 @@ export default function Register() {
 
   const router = useRouter();
 
-  const [mobile, setMobile] = useState("");
   const methods = useForm({
     defaultValues: {
       fullName: "",
@@ -526,26 +526,75 @@ export default function Register() {
   const isStepSkipped = (step) => {
     return skippedSteps.includes(step);
   };
+  const supabase = createClientComponentClient()
 
-  const handleNext = (data) => {
+  const handleNext = async(data) => {
     if (activeStep == steps.length - 1) {
-      axios
-        .post("http://localhost:5000/add_user", JSON.stringify(data), {
-          headers: {
-            "Content-Type": "application/json",
-            // Add other headers if needed
+
+      //  SUPABASE LOGIC 
+  
+      const email = data.email;
+      const password = data.password;
+      const name = data.fullName;
+      const mobile = data.mobile;
+      const state = data.state;
+      const address = data.address;
+      const aadhaar = data.aadhaar;
+      const dob = data.dob;
+      const skills = data.skills;
+      const pj_location = data.pj_location;
+      const gender = data.gender
+      const disable = data.disable
+      const education = data.education
+
+
+
+      try{
+  
+        await supabase.auth.signUp({email,
+          password, name, mobile, state, address, aadhaar, dob, skills, pj_location, gender, disable, education,
+          options: {
+            emailRedirectTo: `${location.origin}/auth/callback`,
           },
         })
-        .then((response) => {
-          console.log("Response:", response.data);
-          toast.success("User added successfully");
 
-          router.push("/login");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          toast.error(error.response.data.error);
-        });
+        toast.success("Email sent to your email address. Please verify your email address to continue.");
+        router.refresh()
+        }catch(e){
+          console.log(e)
+        }
+
+
+
+
+      // axios
+      //   .post("http://localhost:5000/add_user", JSON.stringify(data), {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       // Add other headers if needed
+      //     },
+      //   })
+      //   .then((response) => {
+      //     console.log("Response:", response.data);
+      //     toast.success("User added successfully");
+
+      //     router.push("/login");
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //     toast.error(error.response.data.error);
+      //   });
+
+
+
+
+
+
+
+
+
+
+
     } else {
       setActiveStep(activeStep + 1);
       setSkippedSteps(
@@ -558,38 +607,54 @@ export default function Register() {
     setActiveStep(activeStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepSkipped(activeStep)) {
-      setSkippedSteps([...skippedSteps, activeStep]);
-    }
-    setActiveStep(activeStep + 1);
-  };
+  // const handleSkip = () => {
+  //   if (!isStepSkipped(activeStep)) {
+  //     setSkippedSteps([...skippedSteps, activeStep]);
+  //   }
+  //   setActiveStep(activeStep + 1);
+  // };
 
   // const onSubmit = methods.handleSubmit(async (data) => {
-  //   // try{
-  //   //     await axios.post("http://127.0.0.1:5000/add_user", JSON.stringify(data), {
-  //   //         headers: {
-  //   //           'Content-Type': 'application/json'
-  //   //         }
-  //   //       }).then(function (response) {
-  //   //         console.log(response);
-  //   //         toast.success("User added successfully")
-  //   //         router.push("/otpauthentication")
+    // try{
+    //     await axios.post("http://127.0.0.1:5000/add_user", JSON.stringify(data), {
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         }
+    //       }).then(function (response) {
+    //         console.log(response);
+    //         toast.success("User added successfully")
+    //         router.push("/otpauthentication")
 
-  //   //       })
-  //   //       .catch(function (error) {
-  //   //         console.log(error);
-  //   //         toast.error(error.response.data.error)
-  //   //       });
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //         toast.error(error.response.data.error)
+    //       });
 
-  //   // }catch(err){
-  //   //     console.log(err)
-  //   //     toast.error(err.response.data.error)
+    // }catch(err){
+    //     console.log(err)
+    //     toast.error(err.response.data.error)
+    // }
 
-  //   // }
+    // const handleSignUp = async () => {
 
-  //   console.log(data);
-  //   toast.success("User added successfully");
+    // const email = data.email;
+    // const password = data.password;
+    // try{
+
+    //   await supabase.auth.signUp({email,
+    //     password,
+    //     options: {
+    //       emailRedirectTo: `${location.origin}/auth/callback`,
+    //     },
+    //   })
+    //   router.refresh()
+    //   toast.success("User added successfully");
+    //   }catch(e){
+    //     console.log(e)
+    //   }
+    //   console.log(data.email, data.password)
+    // // }
   // });
 
   return (
