@@ -527,12 +527,12 @@ export default function Register() {
     return skippedSteps.includes(step);
   };
   const supabase = createClientComponentClient()
+  const [loading, setLoading] = useState(false)
 
   const handleNext = async(data) => {
     if (activeStep == steps.length - 1) {
-
+      setLoading(true)
       //  SUPABASE LOGIC 
-  
       const email = data.email;
       const password = data.password;
       const name = data.fullName;
@@ -550,26 +550,11 @@ export default function Register() {
 
 
       try{
-  
         await supabase.auth.signUp({email,
           password,
           options: {
             emailRedirectTo: `${location.origin}/auth/callback`,
-          }, 
-            data: {
-              email,
-              name,
-              mobile,
-              state,
-              address,
-              aadhaar,
-              dob,
-              skills,
-              pj_location,
-              gender,
-              disable,
-              education,
-            }
+          }
           
         })
 
@@ -579,6 +564,8 @@ export default function Register() {
         router.refresh()
         }catch(e){
           console.log(e)
+        }finally{
+          setLoading(false)
         }
 
 
@@ -744,6 +731,7 @@ export default function Register() {
                       color="primary"
                       // onClick={handleNext}
                       type="submit"
+                      disabled={loading}
                     >
                       {activeStep === steps.length - 1 ? "Finish" : "Next"}
                     </Button>
