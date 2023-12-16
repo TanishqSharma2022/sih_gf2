@@ -18,5 +18,5 @@ export default function Page() {
     getData()
   }, [])
 
-  return user ? <pre>{JSON.stringify(user, null, 2)}</pre> : <p>Loading users...</p>
+  return user ? <pre>{JSON.stringify(user, null)}</pre> : <p>Loading users...</p>
 }
