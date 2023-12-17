@@ -218,7 +218,7 @@ const MenuProps = {
 };
 
 const PersonalForm = () => {
-  const names = ["Technology", "Household", "Petroleum", "Civil", "Government"];
+  const names = ["Technology", "Household", "IT", "Programming", "Cosmetology", "Electrician", "Accountant", "Carpenting", "Mechanic"];
 
   const [gender, setGender] = useState({ gender: "" });
   const [education, setEducation] = useState({ education: "" });
@@ -375,7 +375,7 @@ const PersonalForm = () => {
           </FormControl>
         )}
       />
-
+     
       <Controller
         control={control}
         name="education"
