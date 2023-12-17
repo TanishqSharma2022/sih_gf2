@@ -78,36 +78,36 @@ function getSteps() {
 
 const BasicForm = () => {
   const { control } = useFormContext();
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
 
-  const handleChange = (prop) => (event) => {
+  // const handleChange = (prop) => (event) => {
 
-    const newPass = event.target.value;
-    console.log(newPass);
+  //   const newPass = event.target.value;
+  //   // console.log(newPass);
 
-    if (newPass.length >= 8) {
-      setValues({ ...values, [prop]: event.target.value });
-    } else {
-      toast.error("Password must be at least 8 characters long");
-    }
-  }
+  //   if (newPass.length >= 8) {
+  //     setValues({ ...values, [prop]: event.target.value });
+  //   } else {
+  //     toast.error("Password must be at least 8 characters long");
+  //   }
+  // }
 
   
 
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
+  // const handleClickShowPassword = () => {
+  //   setValues({
+  //     ...values,
+  //     showPassword: !values.showPassword,
+  //   });
+  // };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 
   return (
     <>
@@ -530,6 +530,12 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
 
   const handleNext = async(data) => {
+
+    
+
+
+
+
     if (activeStep == steps.length - 1) {
       setLoading(true)
       //  SUPABASE LOGIC 
@@ -547,50 +553,47 @@ export default function Register() {
       const disable = data.disable
       const education = data.education
 
-
-
       try{
         await supabase.auth.signUp({email,
           password,
           options: {
             emailRedirectTo: `${location.origin}/auth/callback`,
+            data:{
+              name: name,
+              mobile: mobile,
+              state: state,
+              address: address,
+              aadhaar: aadhaar,
+              dob: dob,
+              skills: skills,
+              
+            }
           }
           
         })
 
-        await supabase.from('sih').insert([{ "name": name , "email" : email , "mobile" : mobile , "aadhaar" : aadhaar , "address" : address , "disable" : disable , "dob" : dob , "education" : education , "pj_location" : pj_location , "skills" : skills , "state" : state , "gender" : gender}]).select()
+      
+
+
+       
+        // const {error} = await supabase.from('sih').insert([{"user_id": id, "name": name , "email" : email , "mobile" : mobile , "aadhaar" : aadhaar , "address" : address , "disable" : disable , "dob" : dob , "education" : education , "pj_location" : pj_location , "skills" : skills , "state" : state , "gender" : gender}]).select()
+
+        // if(error){
+        //   throw error
+        //   console.log(error)
+        // }
         toast.success("Email sent to your email address. Please verify your email address to continue.");
-        //console.log({data})
         router.refresh()
         }catch(e){
           console.log(e)
         }finally{
           setLoading(false)
+          const id = supabase.auth.getUser().id
+          console.log(id)
         }
 
 
-
-
-      // axios
-      //   .post("http://localhost:5000/add_user", JSON.stringify(data), {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       // Add other headers if needed
-      //     },
-      //   })
-      //   .then((response) => {
-      //     console.log("Response:", response.data);
-      //     toast.success("User added successfully");
-
-      //     router.push("/login");
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //     toast.error(error.response.data.error);
-      //   });
-
-
-
+  
 
 
 
@@ -661,6 +664,8 @@ export default function Register() {
     // // }
   // });
 
+
+  
   return (
     <>
       <div className="w-full grid place-items-center p-4">

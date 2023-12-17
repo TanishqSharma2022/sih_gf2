@@ -1,40 +1,29 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-import { MdOutlineEmail } from "react-icons/md";
 import { BsTelephone } from "react-icons/bs";
+import { MdOutlineEmail } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 
-export default function User({ params }) {
-  const [data, setData] = useState("");
+const Profile = ({ data }) => {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // Fetch data from an API
-      const response = await fetch(
-        `http://localhost:5000/api/resource/${params.id}`
-      );
-      const result = await response.json();
-      setData(result);
-    };
+    const cleanedArray = data?.skills
+    .replace(/[\[\]']+/g, '') // Remove square brackets
+    .split(', ') // Split into an array
+    .map((element) => element.replace(/"/g, '')); 
 
-    fetchData();
-  }, []);
 
-  return (
-    <>
-      <div className="w-full bg-gray-400/20 grid place-items-center p-4 border">
-        <div className="md:w-[50%] rounded-2xl shadow-lg p-12 flex bg-white">
-          <div className="profile w-[30%]">
+    return(
+        <>{data && 
+         <div className="w-full bg-gray-400/10 grid place-items-center md:p-4 border">
+            <div className="md:w-[50%] w-full border flex flex-col items-center bg-white">
+        <div className="  md:flex-row  md:p-12 p-6 grid gap-6 ">
+          <div className="profile w-full items-center justify-center md:py-0 py-4 flex ">
             <img
               src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1060&t=st=1702539950~exp=1702540550~hmac=10d27a26116d79bf30cfe8e08e5e5ef279d26344aa4b48a5caf65cb6a635b36f"
-              className="rounded-full shadow-lg"
+              className="rounded-full shadow-lg  h-[110px] "
             />
           </div>
           <div className="flex flex-col p-6">
-            <h1 className="font-semibold text-xl">{data.name}</h1>
-            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2">
+            <h1 className="font-semibold text-2xl text-center">{data.name}</h1>
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
               <div className="flex items-center gap-2 text-sm">
                 <MdOutlineEmail /> {data.email}
               </div>
@@ -52,13 +41,11 @@ export default function User({ params }) {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className=" mt-6 md:w-[50%] rounded-2xl shadow-lg p-12 flex bg-white flex-col">
-          <h1 className="text-xl font-semibold">Skills:</h1>
-          <div className="mt-4 flex gap-3">
-            {data.skills &&
-              data.skills.split(",").map((skill) => {
+          <div className="flex flex-col p-6">
+            <h1 className="font-semibold text-xl">Skills</h1>
+            <div className="mt-4 flex gap-3">
+            {data.skills  && 
+              cleanedArray.map((skill) => {
                 return (
                   <div
                     className="p-2 text-md  border rounded-[40px]"
@@ -70,12 +57,16 @@ export default function User({ params }) {
               })}
           </div>
         </div>
-
-
+        </div>
+        </div>
         <div className=" mt-6 md:w-[50%] rounded-2xl shadow-lg p-12 flex bg-white flex-col">
 
         </div>
       </div>
-    </>
-  );
+        }
+        
+        </>
+    )
 }
+
+export default Profile;

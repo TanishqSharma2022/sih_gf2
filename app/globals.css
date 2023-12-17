@@ -18,7 +18,9 @@
 
 
 .backgroundImage{
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://img.freepik.com/free-photo/flat-lay-desk-concept-with-copy-space_23-2148236810.jpg?w=1800&t=st=1702844114~exp=1702844714~hmac=5d37a0e7a3f6215859dea04a240a2e494f314cb625af2c007578df71edd9da3c');
+
+    /* background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
