@@ -9,12 +9,17 @@ import { useId, useState } from "react";
 
 export const MultiSelectInput = ({ name, label, id }) => {
   const options = [
-    { value: "Tech", label: "Tech" },
+    { value: "IT", label: "IT" },
+    { value: "Cosmetology", label: "Cosmetology" },
+    { value: "Electrician", label: "Electrician" },
     { value: "Household", label: "Household" },
-    { value: "Petroleum", label: "Petroleum" },
+    { value: "Driver", label: "Driver" },
+    { value: "Programming", label: "Programming" },
+    { value: "Chef", label: "Chef" },
     { value: "Hardware", label: "Hardware" },
     { value: "Carpenting", label: "Carpenting" },
     { value: "Accountant", label: "Accountant" },
+    { value: "Mechanic", label:"Mechanic"},
     { value: "China", label: "China" },
   ];
   // const [selectedOption, setSelectedOption] = useState([])
