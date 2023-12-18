@@ -14,7 +14,7 @@ export default async function Job(){
                 return(
                     <>
                     {/* <h1>{job.job_title}</h1> */}
-                    <JobCard job={job} />
+                    <JobCard key={job} job={job} />
                     </>
                 )
             })}
