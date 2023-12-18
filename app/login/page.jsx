@@ -22,23 +22,23 @@ const Login = () => {
   const methods = useForm();
 
 
-  const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+  // const [user, setUser] = useState(null)
+  //   const [loading, setLoading] = useState(true)
 const supabase = createClientComponentClient()  
-useEffect(() =>  {
-  async function getUser(){
-    const {data: {user}} = await supabase.auth.getUser()
-    setUser(user)
-    setLoading(false)
-  }
+// useEffect(() =>  {
+//   async function getUser(){
+//     const {data: {user}} = await supabase.auth.getUser()
+//     setUser(user)
+//     setLoading(false)
+//   }
 
-  getUser()
-}, [])
+//   getUser()
+// }, [])
 
-console.log(user, loading)
+// console.log(user, loading)
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    console.log(data);
+    // console.log(data);÷
 
     try {
 
@@ -76,13 +76,13 @@ console.log(user, loading)
     }
   });
 
-  if(loading){
-    console.log("Loading")
-    return(
-    <>
-      Loading..
-    </>)
-  }
+  // if(loading){
+  //   console.log("Loading")
+  //   return(
+  //   <>
+  //     Loading..
+  //   </>)
+  // }
 
   // if(user){
   // }
