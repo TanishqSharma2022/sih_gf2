@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        gilroy: ['"Gilroy"', 'ui-sans-serif', 'system-ui'],
+        noto: ['"Noto Sans"', 'ui-sans-serif', 'system-ui']
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

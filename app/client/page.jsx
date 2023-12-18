@@ -16,7 +16,7 @@ export default async function Page() {
   return session  ? (
     <>
     {/* <pre>{JSON.stringify(sih, null, 2)}</pre> */}
-    <div className="w-full bg-black/10 h-[100vh] flex md:p-12 justify-center">
+    <div className="w-full p-4 bg-gray-100 h-[150vh] flex md:p-6 justify-center">
           {sih && <Profile data={sih[0]} />}
     </div>
     </>

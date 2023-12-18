@@ -12,13 +12,14 @@ import { MdWorkOutline } from "react-icons/md";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
 import { IoMdLogIn } from "react-icons/io";
+import {Fade} from 'react-awesome-reveal'
+
 
 export default function Navbar() {
     const router = useRouter();
     const [user, setUser] = useState(null);
     
     const path = usePathname();
-    console.log(path);
   
   
   
@@ -49,33 +50,41 @@ export default function Navbar() {
     await supabase.auth.signOut();
     router.push("/");
     setUser(null);
+    setShowMenu(false);
   }
 
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="h-[10vh]  w-full shadow-lg flex items-center justify-center p-4">
+    <div className="h-[10vh]  w-full shadow-xl flex items-center justify-center p-4 font-noto bg-white">
+
       <div className="w-full md:w-[90%] h-full flex items-center justify-between">
+      <Fade>
+
         <div className="flex items-center gap-4">
           <img
             className="h-[6vh] aspect-ratio-1 drop-shadow-sm "
             src="/images/Seal_of_Punjab.gif"
           />
-          <h1 className="font-bold text-lg  text-left">
+          <h1 className="font-bold text-lg  text-left ">
             PUNJAB GHAR
             <br /> GHAR ROZGAR
           </h1>
         </div>
+        </Fade>
+
+        <Fade>
+
         <div className="md:visible invisible">
-          <ul className=" flex md:flex-row flex-col gap-7 items-center text-lg nav_list font-sans">
+          <ul className=" flex md:flex-row flex-col gap-7 items-center text-lg nav_list">
             <Link href="/">
-              <li>Home</li>
+              <li className={`${path == '/' ? "text-[#294dff]" : ""}`}>Home</li>
             </Link>
             <Link href="/job">
-              <li>Jobs</li>
+              <li className={`${path == '/job' ? "text-[#294dff]" : ""}`}>Jobs</li>
             </Link>
             <Link href="/recruiters">
-              <li>Recruiters</li>
+              <li className={`${path == '/recruiters' ? "text-[#294dff]" : ""}`}>Recruiters</li>
             </Link>
 
             {!user && (
@@ -89,7 +98,7 @@ export default function Navbar() {
                 </Link>
                 <Link href="/register">
                   <li>
-                    <button className="p-2 px-6 border border-[#294dff] text-[#294dff] rounded-full hover:bg-[#294dff] hover:text-white">
+                    <button className="p-2 px-6 border border-[#294dff] text-[#294dff] rounded-full hover:bg-[#2a3982] hover:text-white">
                       Register
                     </button>
                   </li>
@@ -103,6 +112,7 @@ export default function Navbar() {
                     src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1060&t=st=1702539950~exp=1702540550~hmac=10d27a26116d79bf30cfe8e08e5e5ef279d26344aa4b48a5caf65cb6a635b36f"
                     className="rounded-full shadow-lg  h-[40px] "
                   />
+
                 </Link>
 
                 <button
@@ -121,18 +131,32 @@ export default function Navbar() {
             </Link>
           </ul>
         </div>
+        </Fade>
+
       </div>
-      <div className="absolute right-6 visible md:invisible ">
+
+
+      <div className="absolute right-6 visible md:invisible flex items-center gap-6">
+      {user &&  <Link href="/client">
+                  <img
+                    src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=1060&t=st=1702539950~exp=1702540550~hmac=10d27a26116d79bf30cfe8e08e5e5ef279d26344aa4b48a5caf65cb6a635b36f"
+                    className="rounded-full shadow-lg  h-[40px] "
+                  />
+                </Link>}
         <RxHamburgerMenu
           className="h-[3vh] w-[3vh]"
           onClick={() => setShowMenu(!showMenu)}
         />
       </div>
+
+
+
       <div
         className={`w-full visible md:invisible h-[100vh] z-10 transition-all bg-white text-black absolute top-0 ${
           showMenu ? "right-0" : "right-[100vh]"
         }`}
       >
+       
         <IoCloseOutline
           className="h-[5vh] w-[5vh] text-black absolute right-12 top-8"
           onClick={() => setShowMenu(!showMenu)}

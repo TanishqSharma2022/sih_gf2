@@ -12,6 +12,7 @@ import { MultiSelectInput } from "@/components/MultiSelect";
 import { useRouter } from "next/navigation";
 import { create } from '@mui/material/styles/createTransitions';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 // import supabase from "@/supabase";
 
 
@@ -92,9 +93,10 @@ const supabase = createClientComponentClient()
     <>
       <div className="w-full grid place-items-center p-4 h-[100vh]  ">
         <div className="w-full md:w-[40%] border rounded-xl shadow-xl p-6 md:p-12 bg-white border-black/20">
-          <h1 className="font-semibold text-xl">
-            Login here and find your passion.
+          <h1 className="font-semibold text-3xl">
+            Log In
           </h1>
+          <p className="mt-6 text-gray-400">Don't have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
           <div>
             <FormProvider {...methods}>
               <form
@@ -130,14 +132,16 @@ const supabase = createClientComponentClient()
                       },
                     }}
                   />
+                  <div className='w-full text-right'>
+                  <h1 className='text-[#294dff] hover:underline cursor-pointer'>Forgot your Password?</h1>
+                  </div>
                 </div>
 
                 <button
                   onClick={onSubmit}
-                  className="bg-blue-500 text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
-
+                  className="bg-[#294dff]  text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
                 >
-                  Login
+                  Log In
                 </button>
               </form>
             </FormProvider>

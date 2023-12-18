@@ -669,18 +669,21 @@ export default function Register() {
   return (
     <>
       <div className="w-full grid place-items-center p-4">
-        <div className="w-full md:w-[50%] md:min-w-[500px] border rounded-xl shadow-xl  p-6 md:p-12">
-          <h1 className="font-semibold  text-xl">
-            Register here and grow your career
+        <div className="w-full md:w-[50%] md:min-w-[500px] border rounded-xl shadow-xl  p-6 md:p-12 mt-8">
+          <h1 className="font-semibold  text-3xl">
+           Sign Up
           </h1>
+          <p className="mt-6 text-gray-400">Already have an account.    <Link className='text-blue-700 underline underline-offset-5' href="/login">Log In</Link> </p>
+{/*  */}
           <div className="mt-6">
-            <Stepper alternativeLabel activeStep={activeStep}>
+            <Stepper alternativeLabel activeStep={activeStep} >
               {steps.map((step, index) => {
                 const labelProps = {};
                 const stepProps = {};
                 if (isStepOptional(index)) {
                   labelProps.optional = (
                     <Typography
+                    
                       variant="caption"
                       align="center"
                       style={{ display: "block" }}
@@ -693,8 +696,8 @@ export default function Register() {
                   stepProps.completed = false;
                 }
                 return (
-                  <Step {...stepProps} key={index}>
-                    <StepLabel {...labelProps}>{step}</StepLabel>
+                  <Step {...stepProps}  key={index}>
+                    <StepLabel  {...labelProps}>{step}</StepLabel>
                   </Step>
                 );
               })}
@@ -714,24 +717,15 @@ export default function Register() {
                     {getStepContent(activeStep)}
 
                     <Button
-                      className="mt-4"
+                      className="mt-4 font-sans px-4"
                       disabled={activeStep === 0}
                       onClick={handleBack}
                     >
                       back
                     </Button>
-                    {/* {isStepOptional(activeStep) && (
-                <Button
-                  className=""
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                >
-                  skip
-                </Button>
-              )} */}
+                  
                     <Button
-                      className="text-black hover:text-white mt-4"
+                      className="bg-[#294dff] px-4  font-sans hover:text-white mt-4"
                       variant="contained"
                       color="primary"
                       // onClick={handleNext}
@@ -757,7 +751,7 @@ const blue = {
   400: "#3399FF",
   500: "#007FFF",
   600: "#0072E5",
-  700: "#0059B2",
+  700: "#294dff",
 };
 
 const grey = {
@@ -775,7 +769,7 @@ const grey = {
 
 const InputRoot = styled("div")(
   ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: ' Sans', sans-serif;
   font-weight: 400;
   border-radius: 8px;
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[500]};

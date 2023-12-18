@@ -54,7 +54,7 @@ export default function Job() {
             />
             <button
               type="submit"
-              className="border rounded-xl bg-blue-400 text-white px-4 py-2 shadow-sm hover:shadow-lg border-blue-200 hover:border-blue-600"
+              className="border rounded-xl bg-[#294dff] text-white px-4 py-2 shadow-sm hover:shadow-lg border-blue-200 hover:border-blue-600"
               onClick={searchJobs}
             >
               Search
