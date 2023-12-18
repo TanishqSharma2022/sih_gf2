@@ -2,8 +2,13 @@
 import Number from "@/components/Number";
 import { CiSearch } from "react-icons/ci";
 import {Fade, Slide} from 'react-awesome-reveal'
-export default function Home() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
+
+export default function Home() {
+  const [search, setSearch] = useState("")
+  const router = useRouter()
   const number_cards = [
     {
       title: "Available Govt. Jobs",
@@ -18,6 +23,14 @@ export default function Home() {
       number: 400
     }
 ]
+// const [response, setResponse] = useState(null)
+
+
+const JobRecommend = () => {
+
+  router.push('/search?search_words='+search+'')
+  
+}
 
   return (
     <main className="flex overflow-x-hidden min-h-screen w-full flex-col items-center justify-between ">
@@ -33,11 +46,18 @@ export default function Home() {
           <div className="flex md:w-full  rounded-2xl flex-col md:flex-row gap-6 justify-between  md:h-[10vh] w-[90%] relative border md:rounded-full bg-white shadow-lg p-4">
             <div className="  flex flex-col md:flex-row gap-2  items-center" >
               <CiSearch className="text-black h-[50px] w-[50px] hidden md:flex" />
-            <input className="md:shadow-none shadow-lg rounded-full text-center h-[6vh] border md:border-none md:h-full w-full font-sans font-semibold" placeholder="Job title / Company " />
+            <input
+            className="md:shadow-none shadow-lg rounded-full text-center h-[6vh] border md:border-none md:h-full w-full font-sans font-semibold" 
+            placeholder="Job title / Company "
+            onChange={(e) => setSearch(e.target.value)}
+            />
             <span className="text-gray-300 font-bold  hidden md:flex">|</span>
             <input className="md:shadow-none shadow-lg rounded-full h-[6vh] text-center md:h-full w-full  border md:border-none font-sans font-semibold" placeholder="City / State / Pincode" />
             </div>
-            <button className=" px-6 grid h-[6vh] md:h-full place-items-center shadow-lg rounded-full bg-black/80 hover:bg-black text-white">Search</button>
+            <button 
+            className=" px-6 grid h-[6vh] md:h-full place-items-center shadow-lg rounded-full bg-black/80 hover:bg-black text-white"
+            onClick={JobRecommend}
+            >Search</button>
             </div>
         </div>
 
@@ -48,7 +68,7 @@ export default function Home() {
     <div className="md:w-[80%] w-full flex gap-6  flex-col md:flex-row  items-center justify-center">
 {
   number_cards.map((card) => (
-      <div key={card} className="bg-gray-100 p-4 rounded-[10px]   shadow-lg border flex flex-col items-center justify-around ">
+      <div key={card.title} className="bg-gray-100 p-4 rounded-[10px]   shadow-lg border flex flex-col items-center justify-around ">
       <div className="px-8 py-5  relative top-0  w-full h-[50%]  rounded-[10px]">
         <h1 className="text-2xl text-center text-[#294dff] font-bold drop-shadow-lg">
           {card.title}
