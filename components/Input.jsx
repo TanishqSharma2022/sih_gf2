@@ -29,7 +29,7 @@ export const Input = ({ label, type, id, placeholder, validation, name, onChange
         <input
           id={id}
           type={type}
-          className="border p-4 rounded-xl "
+          className="border p-4 rounded-xl hover:border-[#294dff] cursor-pointer"
           placeholder={placeholder}
           onChange={onChange}
           {...register(name, validation)}

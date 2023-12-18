@@ -59,9 +59,7 @@ const Profile = ({ data }) => {
         </div>
         </div>
         </div>
-        <div className=" mt-6 md:w-[50%] rounded-2xl shadow-lg p-12 flex bg-white flex-col">
-
-        </div>
+   
       </div>
         }
         

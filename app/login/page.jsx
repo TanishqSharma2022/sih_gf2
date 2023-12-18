@@ -90,9 +90,9 @@ const supabase = createClientComponentClient()
 
   return (
     <>
-      <div className="w-full grid place-items-center p-4">
-        <div className="w-full md:w-[50%] border rounded-xl shadow-xl  p-6 md:p-12">
-          <h1 className="font-semibold  text-xl">
+      <div className="w-full grid place-items-center p-4 h-[100vh]  ">
+        <div className="w-full md:w-[40%] border rounded-xl shadow-xl p-6 md:p-12 bg-white border-black/20">
+          <h1 className="font-semibold text-xl">
             Login here and find your passion.
           </h1>
           <div>
@@ -134,7 +134,8 @@ const supabase = createClientComponentClient()
 
                 <button
                   onClick={onSubmit}
-                  className="bg-blue-500 text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer"
+                  className="bg-blue-500 text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
+
                 >
                   Login
                 </button>
