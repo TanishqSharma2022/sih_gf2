@@ -96,7 +96,7 @@ const supabase = createClientComponentClient()
           <h1 className="font-semibold text-3xl">
             Log In
           </h1>
-          <p className="mt-6 text-gray-400">Don't have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
+          <p className="mt-6 text-gray-400">Dont have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
           <div>
             <FormProvider {...methods}>
               <form
@@ -133,13 +133,15 @@ const supabase = createClientComponentClient()
                     }}
                   />
                   <div className='w-full text-right'>
-                  <h1 className='text-[#294dff] hover:underline cursor-pointer'>Forgot your Password?</h1>
+                  <h1 className='text-[#294dff] hover:underline cursor-pointer'>
+                    Forgot your Password?
+                  </h1>
                   </div>
                 </div>
 
                 <button
                   onClick={onSubmit}
-                  className="bg-[#294dff]  text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
+                  className="bg-[#294dff] text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
                 >
                   Log In
                 </button>
