@@ -1,9 +1,13 @@
 'use client'
+
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import JobCard from "./JobCard";
 import Number from "@/components/Number";
 import { CiSearch } from "react-icons/ci";
 import {Fade, Slide} from 'react-awesome-reveal'
-import { useState } from "react";
+import {useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Marquee } from "./silde";
 // import { cookies } from "next/headers";
 
 
@@ -27,6 +31,32 @@ export default function Home() {
 // const [response, setResponse] = useState(null)
 
 
+
+// All Jobs Dashboard 
+
+
+
+//--------------------------------------------------------------
+const [input, setInput] = useState("");
+const [Jobdata, setJobdata] = useState(null);
+const [Jobs, setFilteredJobs] = useState(null);
+
+const supabase = createClientComponentClient();
+
+useEffect(() => {
+  async function getJobs() {
+    const { data, error } = await supabase.from("job_listings").select("");
+    if (error) {
+      console.log(error);
+    }
+    setJobdata(data);
+    setFilteredJobs(data);
+  }
+  getJobs();
+}, []);
+// ------------------------------------------------------------------
+
+
 const JobRecommend = () => {
 
   router.push('/search?search_words='+search+'')
@@ -38,19 +68,19 @@ const JobRecommend = () => {
   return (
     <main className="flex overflow-x-hidden min-h-screen w-full flex-col items-center justify-between ">
     <Fade>
-      <div className="backgroundImage  w-full h-[110vh] md:h-[80vh] shadow-xl    p-6 md:p-12 ">
+      <div className="backgroundImage  w-full h-[80vh] md:h-[60vh] md:w-[180vh] shadow-xl    p-6 md:p-12 ">
 
-        <div className="w-full md:w-[50%] flex flex-col items-center justify-center  shadow-2xl py-4 md:p-6 bg-white/20 backdrop-blur-lg  relative top-[10%] ">
+        <div className="w-full md:w-[100%] flex flex-col items-center justify-center  shadow-2xl py-4 md:p-6 bg-white/20 backdrop-blur-lg  relative top-[10%] ">
           <h1 className="text-4xl md:text-5xl p-4  font-bold drop-shadow-lg text-white font-gilroy">Find the job that fits your life</h1>
           <p className="text-lg text-white p-4 drop-shadow-lg font-sans">With Indeed, you can search millions of jobs online to find the next step in your career. With tools for job search, CVs, company reviews and more, were with you every step of the way.</p>
           
           
           
-          <div className="flex md:w-full  rounded-2xl flex-col md:flex-row gap-6 justify-between  md:h-[10vh] w-[90%] relative border md:rounded-full bg-white shadow-lg p-4">
+          <div className="flex md:w-full  rounded-2xl flex-col md:flex-row gap-6 justify-between  md:h-[7vh] w-[90%] relative border md:rounded-full bg-white shadow-lg p-4">
             <div className="  flex flex-col md:flex-row gap-2  items-center" >
               <CiSearch className="text-black h-[50px] w-[50px] hidden md:flex" />
             <input
-            className="md:shadow-none shadow-lg rounded-full text-center h-[6vh] border md:border-none md:h-full w-full font-sans font-semibold" 
+            className="md:shadow-none shadow-lg rounded-full text-center h-[2.5vh] border md:border-none md:h-full w-full font-sans font-semibold font-15px" 
             placeholder="Job title / Company "
             onChange={(e) => setSearch(e.target.value)}
             />
@@ -62,13 +92,11 @@ const JobRecommend = () => {
             onClick={JobRecommend}
             >Search</button>
             </div>
-        </div>
-
+            
       </div>
-      </Fade>
-
-    <div className="w-full py-[100px] p-12  grid place-items-center ">
-    <div className="md:w-[80%] w-full flex gap-6  flex-col md:flex-row  items-center justify-center">
+        
+    <div className="w-full py-[100px] p-12  grid place-items-center " >
+    <div className="md:w-[80%] w-full flex gap-6  flex-col md:flex-row  items-center justify-center" >
 {
   number_cards.map((card) => (
       <div key={card.title} className="bg-gray-100 p-4 rounded-[10px]   shadow-lg border flex flex-col items-center justify-around ">
@@ -90,6 +118,35 @@ const JobRecommend = () => {
 
     </div>
     </div>
+      </div>
+        
+      </Fade>
+
+
+      <div className="flex md:w-[175vh]  flex-col md:flex-row gap-6 justify-between  md:h-[50vh] w-[90%] p-4 flex-col " style={{ overflow: 'hidden', maxWidth:'100%', background: 'transparent'}}>
+
+
+        {/* ---------------------------------------------------------------- */}
+        {/* <Marquee> */}
+        <>
+       <div className="mt-6 p-20 md:p-12 h- flex flex-row gap-7 container " style={{ overflow: 'scroll', height:'500px', maxWidth:'100%', background: 'transparent', overflowY: 'hidden'}}>
+        <div className="flex h-full md:flex-row gap-6 flex-col justify-between items-center py-2 bg-white">
+        </div>
+          {Jobs &&
+            Jobs.map((job) => {
+              return (
+                <div key={job.id}>
+                  <JobCard key={job.id} job={job} />
+                </div>
+              );
+            })}
+
+      </div> 
+    </>
+    {/* </Marquee> */}
+
+        {/* ---------------------------------------------------------------- */}
+      </div>
 
     <div className="w-full py-[100px] p-12 border grid place-items-center bg-gray-100">
       <Fade delay={500}>

@@ -1,0 +1,9 @@
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .marquee {
+    display: inline-block;
+  }
+  
