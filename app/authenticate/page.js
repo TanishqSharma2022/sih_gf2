@@ -26,26 +26,34 @@ const Login = () => {
   // const [user, setUser] = useState(null)
   //   const [loading, setLoading] = useState(true)
 const supabase = createClientComponentClient()  
-// useEffect(() =>  {
-//   async function getUser(){
-//     const {data: {user}} = await supabase.auth.getUser()
-//     setUser(user)
-//     setLoading(false)
-//   }
 
-//   getUser()
-// }, [])
-
-// console.log(user, loading)
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    // console.log(data);÷
 
     try {
 
 // supabase logic 
       const email = data.email;
       const password = data.password;
+      const cpassword = data.cpassword;
+
+
+      if(cpassword !== password){
+        return toast.error("Password does not match...")
+      }
+
+      const uppercaseRegex = /[A-Z]/;
+      const digitRegex = /\d/;
+      const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
+
+      if (!uppercaseRegex.test(password)) {
+        return toast.error("Password must contain at least one uppercase letter.");
+      } else if (!digitRegex.test(password)) {
+        return toast.error("Password must contain at least one digit.");
+      } else if (!specialCharRegex.test(password)) {
+        return toast.error("Password must contain at least one special character.");
+      }
+
       await supabase.auth.signUp({
         email,
         password,
@@ -82,17 +90,6 @@ const supabase = createClientComponentClient()
       toast.error("Wrong email or password")
     }
   });
-
-  // if(loading){
-  //   console.log("Loading")
-  //   return(
-  //   <>
-  //     Loading..
-  //   </>)
-  // }
-
-  // if(user){
-  // }
 
 
   return (
@@ -136,6 +133,20 @@ const supabase = createClientComponentClient()
                         value: 8,
                         message: "Password must be at least 8 characters long",
                       },
+                    }}
+                  />
+                   <Input
+                    label="Confirm Password"
+                    type="password"
+                    name="cpassword"
+                    id="cpassword"
+                    placeholder="Confirm password"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: "Password is required",
+                      }
+
                     }}
                   />
     

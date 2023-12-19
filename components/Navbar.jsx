@@ -96,7 +96,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </Link>
-                <Link href="/register">
+                <Link href="/authenticate">
                   <li>
                     <button className="p-2 px-6 border border-[#294dff] text-[#294dff] rounded-full hover:bg-[#2a3982] hover:text-white">
                       Register
@@ -193,7 +193,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </Link>
-                <Link href="/register" onClick={() => setShowMenu(false)}>
+                <Link href="/authenticate" onClick={() => setShowMenu(false)}>
                   <li className="flex gap-6 items-center">
                     <IoMdLogIn />
                     <button>
