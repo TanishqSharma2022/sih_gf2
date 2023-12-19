@@ -127,7 +127,7 @@ const BasicForm = () => {
           />
         )}
       />
-
+{/* 
       <Controller
         control={control}
         name="email"
@@ -183,7 +183,7 @@ const BasicForm = () => {
           {...field}
           />
         )}
-      />
+      /> */}
 
       <Controller
         control={control}
@@ -434,6 +434,8 @@ function getStepContent(step) {
 }
 
 export default function Register() {
+  const [id, setId] = useState("")
+
   // const [showOtp, setShowOtp] = useState(false);
   // const [otp, setOtp] = useState("");
   // OTP VERIFICATION FIREBASE
@@ -509,7 +511,7 @@ export default function Register() {
       dob: "",
       disable: false,
       aadhaar: "",
-      skills: [],
+      skills: [""],
       education: "",
       pj_location: "",
     },
@@ -554,42 +556,41 @@ export default function Register() {
       const education = data.education
 
       try{
-        await supabase.auth.signUp({email,
-          password,
-          options: {
-            emailRedirectTo: `${location.origin}/auth/callback`,
-            data:{
-              name: name,
-              mobile: mobile,
-              state: state,
-              address: address,
-              aadhaar: aadhaar,
-              dob: dob,
-              skills: skills,
+        // await supabase.auth.signUp({email,
+        //   password,
+        //   options: {
+        //     emailRedirectTo: `${location.origin}/auth/callback`,
+        //     data:{
+        //       name: name,
+        //       mobile: mobile,
+        //       state: state,
+        //       address: address,
+        //       aadhaar: aadhaar,
+        //       dob: dob,
+        //       skills: skills,
               
-            }
-          }
+        //     }
+        //   }
           
-        })
+        // })
 
       
+        const data = supabase.auth.getUser().then((data) => {setId(data.data.user.id)}) 
 
 
-       
-        // const {error} = await supabase.from('sih').insert([{"user_id": id, "name": name , "email" : email , "mobile" : mobile , "aadhaar" : aadhaar , "address" : address , "disable" : disable , "dob" : dob , "education" : education , "pj_location" : pj_location , "skills" : skills , "state" : state , "gender" : gender}]).select()
+       console.log(data)
+        const {error} = await supabase.from('sih').insert([{"user_id": id, "name": name , "email" : "" , "mobile" : "" , "aadhaar" : aadhaar , "address" : address , "disable" : disable , "dob" : dob , "education" : education , "pj_location" : pj_location , "skills" : skills , "state" : state , "gender" : gender}]).select()
 
-        // if(error){
-        //   throw error
-        //   console.log(error)
-        // }
-        toast.success("Email sent to your email address. Please verify your email address to continue.");
+        if(error){
+          throw error
+          console.log(error)
+        }
         router.refresh()
         }catch(e){
           console.log(e)
         }finally{
           setLoading(false)
-          const id = supabase.auth.getUser().id
-          console.log(id)
+          
         }
 
 

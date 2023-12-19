@@ -46,18 +46,21 @@ const supabase = createClientComponentClient()
 // supabase logic 
       const email = data.email;
       const password = data.password;
-
-
-      const res  = await supabase.auth.signInWithPassword({
+      await supabase.auth.signUp({
         email,
         password,
+        options:{
+            redirectTo: `${location.origin}/auth/callback?email=${email}`
+        }
       })
-      const {user} = await supabase.auth.getUser()
-      // const { data: sih, error } = await supabase.
-      router.refresh()
-      console.log(res)
 
-      router.push(`/client/${res.data.user.id}}`)
+      toast.success("Email sent to your email address. Please verify your email address to continue.");
+
+      router.refresh()
+      console.log("signed in ")
+
+
+      router.push(`/register`)
 
       
 
@@ -97,9 +100,9 @@ const supabase = createClientComponentClient()
       <div className="w-full grid place-items-center p-4 h-[100vh]  ">
         <div className="w-full md:w-[40%] border rounded-xl shadow-xl p-6 md:p-12 bg-white border-black/20">
           <h1 className="font-semibold text-3xl">
-            Log In
+            Sign Up
           </h1>
-          <p className="mt-6 text-gray-400">Dont have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
+          <p className="mt-6 text-gray-400">Already have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Log In</Link> </p>
           <div>
             <FormProvider {...methods}>
               <form
@@ -135,18 +138,14 @@ const supabase = createClientComponentClient()
                       },
                     }}
                   />
-                  <div className='w-full text-right'>
-                  <h1 className='text-[#294dff] hover:underline cursor-pointer'>
-                    Forgot your Password?
-                  </h1>
-                  </div>
+    
                 </div>
 
                 <button
                   onClick={onSubmit}
                   className="bg-[#294dff] text-white font-semibold p-4 rounded-xl mt-8 cursor-pointer shadow-lg hover:border-blue-500 hover:bg-blue-600"
                 >
-                  Log In
+                  Sign Up
                 </button>
               </form>
             </FormProvider>

@@ -4,14 +4,14 @@ import { createClientComponentClient, createServerComponentClient } from "@supab
 // import { useEffect, useState } from "react";
 import {cookies} from 'next/headers'
 import Profile from "./Profile";
-
-
+import { createClient } from '@/utils/supabase/client'
+// import supabase from "@/supabase";
 
 export default async function Page() {
-    const supabase = createServerComponentClient({cookies});
-    const session = supabase.auth.getSession();
 
+  const supabase = createClientComponentClient()
     const { data: sih, error } = await supabase.from("sih").select()
+    const session = supabase.auth.getSession()
     
   return session  ? (
     <>

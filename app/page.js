@@ -4,6 +4,7 @@ import { CiSearch } from "react-icons/ci";
 import {Fade, Slide} from 'react-awesome-reveal'
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+// import { cookies } from "next/headers";
 
 
 export default function Home() {
@@ -31,6 +32,8 @@ const JobRecommend = () => {
   router.push('/search?search_words='+search+'')
   
 }
+
+
 
   return (
     <main className="flex overflow-x-hidden min-h-screen w-full flex-col items-center justify-between ">
