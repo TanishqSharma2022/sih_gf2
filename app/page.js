@@ -69,27 +69,27 @@ const JobRecommend = () => {
   return (
     <main className="flex overflow-x-hidden min-h-screen w-full flex-col items-center justify-between ">
     {/* <Fade> */}
-      <div className="backgroundImage  w-full h-[80vh] md:h-[60vh] md:w-[180vh] shadow-xl    p-6 md:p-12 ">
+      <div className="backgroundImage  w-full  shadow-xl  flex py-24  justify-center  p-6 md:p-12 ">
 
-        <div className="w-full md:w-[100%] flex flex-col items-center justify-center  shadow-2xl py-4 md:p-6 bg-white/20 backdrop-blur-lg  relative top-[10%] ">
+        <div className="w-full md:w-[60%] flex flex-col items-center justify-center  shadow-2xl py-4 md:p-6 bg-white/20 backdrop-blur-lg  relative top-[10%] ">
           <h1 className="text-4xl md:text-5xl p-4  font-bold drop-shadow-lg text-white font-gilroy">Find the job that fits your life</h1>
           <p className="text-lg text-white p-4 drop-shadow-lg font-sans">With Indeed, you can search millions of jobs online to find the next step in your career. With tools for job search, CVs, company reviews and more, were with you every step of the way.</p>
           
           
           
-          <div className="flex md:w-full  rounded-2xl flex-col md:flex-row gap-6 justify-between  md:h-[7vh] w-[90%] relative border md:rounded-full bg-white shadow-lg p-4">
+          <div className="flex md:w-full  rounded-2xl flex-col md:flex-row gap-6 justify-between w-[90%] relative border md:rounded-full bg-white shadow-lg p-4">
             <div className="  flex flex-col md:flex-row gap-2  items-center" >
               <CiSearch className="text-black h-[50px] w-[50px] hidden md:flex" />
             <input
-            className="md:shadow-none shadow-lg rounded-full text-center h-[2.5vh] border md:border-none md:h-full w-full font-sans font-semibold font-15px" 
+            className="rounded-full text-center border md:border-none md:h-full w-full font-sans font-semibold py-4" 
             placeholder="Job title / Company "
             onChange={(e) => setSearch(e.target.value)}
             />
             <span className="text-gray-300 font-bold  hidden md:flex">|</span>
-            <input className="md:shadow-none shadow-lg rounded-full h-[6vh] text-center md:h-full w-full  border md:border-none font-sans font-semibold" placeholder="City / State / Pincode" />
+            <input className=" rounded-full text-center py-4  w-full  border md:border-none font-sans font-semibold" placeholder="City / State / Pincode" />
             </div>
             <button 
-            className=" px-6 grid h-[6vh] md:h-full place-items-center shadow-lg rounded-full bg-black/80 hover:bg-black text-white"
+            className="px-6 py-2  grid place-items-center shadow-lg rounded-full bg-black/80 hover:bg-black text-white"
             onClick={JobRecommend}
             >Search</button>
             </div>
