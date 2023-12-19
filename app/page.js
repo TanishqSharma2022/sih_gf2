@@ -8,6 +8,7 @@ import {Fade, Slide} from 'react-awesome-reveal'
 import {useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Marquee } from "./silde";
+import JobTemp from "@/components/JobTemp";
 // import { cookies } from "next/headers";
 
 
@@ -67,7 +68,7 @@ const JobRecommend = () => {
 
   return (
     <main className="flex overflow-x-hidden min-h-screen w-full flex-col items-center justify-between ">
-    <Fade>
+    {/* <Fade> */}
       <div className="backgroundImage  w-full h-[80vh] md:h-[60vh] md:w-[180vh] shadow-xl    p-6 md:p-12 ">
 
         <div className="w-full md:w-[100%] flex flex-col items-center justify-center  shadow-2xl py-4 md:p-6 bg-white/20 backdrop-blur-lg  relative top-[10%] ">
@@ -95,59 +96,65 @@ const JobRecommend = () => {
             
       </div>
         
-    <div className="w-full py-[100px] p-12  grid place-items-center " >
-    <div className="md:w-[80%] w-full flex gap-6  flex-col md:flex-row  items-center justify-center" >
-{
-  number_cards.map((card) => (
-      <div key={card.title} className="bg-gray-100 p-4 rounded-[10px]   shadow-lg border flex flex-col items-center justify-around ">
-      <div className="px-8 py-5  relative top-0  w-full h-[50%]  rounded-[10px]">
-        <h1 className="text-2xl text-center text-[#294dff] font-bold drop-shadow-lg">
-          {card.title}
-          </h1>
-      </div>
-      <div className="font-bold  text-3xl mb-6">
+   
 
-      <Number n={card.number} />
-        
+
       </div>
-      
-      </div>
-    ))}
+      <div className="w-full py-[100px] p-12  grid place-items-center " >
+    <div className="md:w-[80%] w-full flex gap-6  flex-col md:flex-row  items-center justify-center" >
+      {
+        number_cards.map((card) => (
+            <div key={card.title} className="bg-gray-100 p-4 rounded-[10px]   shadow-lg border flex flex-col items-center justify-around ">
+            <div className="px-8 py-5  relative top-0  w-full h-[50%]  rounded-[10px]">
+              <h1 className="text-2xl text-center text-[#294dff] font-bold drop-shadow-lg">
+                {card.title}
+                </h1>
+            </div>
+            <div className="font-bold  text-3xl mb-6">
+
+            <Number n={card.number} />
+              
+            </div>
+            
+            </div>
+          ))}
      
 
 
     </div>
     </div>
-      </div>
+
+    <div>
+    <div className=" md:p-12 grid place-items-center">
+    <h1 className="font-bold text-5xl py-12 ">Find <span className="text-[#294dff]">Jobs</span> for you</h1>
+
+
+<div className="flex border md:w-[175vh] overflow-auto  flex-row gap-6 justify-between   w-full  ">
+
+ {/* <div className="mt-6 p-20 md:p-12 h- flex flex-row gap-7 container " style={{ overflow: 'scroll', height:'500px', maxWidth:'100%', background: 'transparent', overflowY: 'hidden'}}> */}
+  {/* <div className="flex h-full md:flex-row gap-6 flex-col justify-between items-center py-2 bg-white">
+  </div> */}
+    {Jobs &&
+      Jobs.map((job) => {
+        return (
+          <div key={job.id} >
+            <JobTemp key={job.id} job={job} />
+          </div>
+        );
+      })}
+
+{/* </div>  */}
+
+{/* </Marquee> */}
+
+  {/* ---------------------------------------------------------------- */}
+</div>
+    </div>
+    </div>
         
-      </Fade>
+      {/* </Fade> */}
 
-
-      <div className="flex md:w-[175vh]  flex-col md:flex-row gap-6 justify-between  md:h-[50vh] w-[90%] p-4 flex-col " style={{ overflow: 'hidden', maxWidth:'100%', background: 'transparent'}}>
-
-
-        {/* ---------------------------------------------------------------- */}
-        {/* <Marquee> */}
-        <>
-       <div className="mt-6 p-20 md:p-12 h- flex flex-row gap-7 container " style={{ overflow: 'scroll', height:'500px', maxWidth:'100%', background: 'transparent', overflowY: 'hidden'}}>
-        <div className="flex h-full md:flex-row gap-6 flex-col justify-between items-center py-2 bg-white">
-        </div>
-          {Jobs &&
-            Jobs.map((job) => {
-              return (
-                <div key={job.id}>
-                  <JobCard key={job.id} job={job} />
-                </div>
-              );
-            })}
-
-      </div> 
-    </>
-    {/* </Marquee> */}
-
-        {/* ---------------------------------------------------------------- */}
-      </div>
-
+     
     <div className="w-full py-[100px] p-12 border grid place-items-center bg-gray-100">
       <Fade delay={500}>
       <h1 className="font-bold text-5xl py-12 ">Find <span className="text-[#294dff]">Jobs</span> for everyone</h1>
@@ -196,6 +203,10 @@ const JobRecommend = () => {
 
     </div>
     </div>
+
+
+
+   
 
     </main>
   )
