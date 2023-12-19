@@ -61,11 +61,9 @@ const supabase = createClientComponentClient()
             redirectTo: `${location.origin}/auth/callback?email=${email}`
         }
       })
+      router.refresh()
 
       toast.success("Email sent to your email address. Please verify your email address to continue.");
-
-      router.refresh()
-      console.log("signed in ")
 
 
       router.push(`/register`)

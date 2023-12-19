@@ -99,7 +99,8 @@ const supabase = createClientComponentClient()
           <h1 className="font-semibold text-3xl">
             Log In
           </h1>
-          <p className="mt-6 text-gray-400">Dont have an account.    <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
+          <p className="mt-6 text-gray-400">Dont have an account.    
+          <Link className='text-blue-600 underline underline-offset-5' href="/register">Sign Up</Link> </p>
           <div>
             <FormProvider {...methods}>
               <form

@@ -109,6 +109,22 @@ const BasicForm = () => {
   //   event.preventDefault();
   // };
 
+  const [num, setNum] = useState()
+  
+  const handleChange = (e) => {
+    // const regex = /^[0-9/b]+$/;
+    const regex = /^[0-9]{10}$/
+
+
+    if (e.target.value < 9999999999 ) {
+      setValue(e.target.value);
+      console.log(e.target.value)
+    }
+  };
+  const [value, setValue] = React.useState('');
+  // const handleChange = (e) => setValue(e.target.value);
+
+
   return (
     <>
       <Controller
@@ -188,6 +204,8 @@ const BasicForm = () => {
       <Controller
         control={control}
         name="mobile"
+        rules={{ validate: value => /^[0-9]{10}$/.test(value) || 'Invalid mobile number' }}
+
         render={({ field }) => (
           <TextField
             required
@@ -198,9 +216,28 @@ const BasicForm = () => {
             placeholder="Enter your mobile number here."
             fullWidth
             margin="normal"
+            // inputProps={{
+            //   maxLength: 10,
+            //   // max:9999999999,
+            //   // min: 999999999
+
+            // }}
+            inputProps={{
+              name: 'inputProps',
+              type: 'number',
+              placeholder: 'placeholder',
+              value,
+              onChange: handleChange,
+            }}
+
+            value={field.value}
             {...field}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+
           />
         )}
+
       />
     </>
   );
