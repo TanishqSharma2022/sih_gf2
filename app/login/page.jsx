@@ -5,7 +5,7 @@ import { Input } from "@/components/Input";
 import { Checkbox } from "@/components/Checkbox";
 import { SelectInput } from "@/components/Select";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Select from "react-select";
 import { MultiSelectInput } from "@/components/MultiSelect";
@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { create } from '@mui/material/styles/createTransitions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 // import supabase from "@/supabase";
 
 
@@ -21,6 +22,8 @@ const Login = () => {
   const router = useRouter();
 
   const methods = useForm();
+  const [captchaToken, setCaptchaToken] = useState();
+  const captcha = useRef();
 
 
   // const [user, setUser] = useState(null)
@@ -46,14 +49,23 @@ const supabase = createClientComponentClient()
 // supabase logic 
       const email = data.email;
       const password = data.password;
+      if (!captchaToken) {
+        toast.error("Please complete the captcha verification.");
+        return;
+      }
 
 
       const res  = await supabase.auth.signInWithPassword({
         email,
         password,
+        options: { captchaToken: captchaToken, },
       })
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
       const {user} = await supabase.auth.getUser()
       // const { data: sih, error } = await supabase.
+
       router.refresh()
       console.log(res)
 
@@ -141,6 +153,13 @@ const supabase = createClientComponentClient()
                     Forgot your Password?
                   </h1>
                   </div>
+                </div>
+                <div className="mt-6">
+                  <HCaptcha
+                    ref={captcha}
+                    sitekey="f88ee0ec-b7ab-43c5-a4fa-1a12594d7d21"
+                    onVerify={setCaptchaToken}
+                  />
                 </div>
 
                 <button
