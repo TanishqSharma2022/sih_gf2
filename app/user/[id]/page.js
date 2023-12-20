@@ -13,7 +13,7 @@ export default function User({ params }) {
     const fetchData = async () => {
       // Fetch data from an API
       const response = await fetch(
-        `http://localhost:5000/api/resource/${params.id}`
+        `https://sih-flask.vercel.app/api/resource/${params.id}`
       );
       const result = await response.json();
       setData(result);
