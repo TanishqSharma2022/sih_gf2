@@ -73,14 +73,14 @@ const supabase = createClientComponentClient()
 
       
 
-      // const response = await axios.post("http://localhost:5000/login", {
+      // const response = await axios.post("https://sih-flask.vercel.app/login", {
       //   email: data.email,
       //   password: data.password,
       // });
 
       // if (response.status === 200) {
       //   console.log("LOGIN SUCCESSFUL...");
-      //   const id = await axios.get("http://localhost:5000/get_user");
+      //   const id = await axios.get("https://sih-flask.vercel.app/get_user");
       //   router.push(`/user/dashboard/${response.data.id}`);
       //   console.log(response.data.id)
 

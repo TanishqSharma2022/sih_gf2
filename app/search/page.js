@@ -13,7 +13,7 @@ export default  function Search(){
     useEffect(()=>{
     async function fetchData(){
         try {
-        const url = 'http://localhost:5000/api/job_recommend';
+        const url = 'https://sih-flask.vercel.app/api/job_recommend';
         const data = {
           search_words: search
         };
