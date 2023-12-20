@@ -110,7 +110,7 @@ const BasicForm = () => {
   // };
 
   const [num, setNum] = useState()
-  
+
   const handleChange = (e) => {
     // const regex = /^[0-9/b]+$/;
     const regex = /^[0-9]{10}$/

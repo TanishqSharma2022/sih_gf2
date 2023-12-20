@@ -5,7 +5,7 @@ import { Input } from "@/components/Input";
 import { Checkbox } from "@/components/Checkbox";
 import { SelectInput } from "@/components/Select";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Select from "react-select";
 import { MultiSelectInput } from "@/components/MultiSelect";
@@ -13,14 +13,20 @@ import { useRouter } from "next/navigation";
 import { create } from '@mui/material/styles/createTransitions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-// import supabase from "@/supabase";
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
+// import supabase from "@/supabase";
 
 
 const Login = () => {
   const router = useRouter();
-
   const methods = useForm();
+  const [captchaToken, setCaptchaToken] = useState();
+  const captcha = useRef();
+
+
+
+
 
 
   // const [user, setUser] = useState(null)
@@ -29,13 +35,24 @@ const supabase = createClientComponentClient()
 
 
   const onSubmit = methods.handleSubmit(async (data) => {
+    
+  
+  
 
     try {
+      if (!captchaToken) {
+        toast.error("Please complete the captcha verification.");
+        return;
+      }
 
 // supabase logic 
       const email = data.email;
       const password = data.password;
       const cpassword = data.cpassword;
+     
+
+
+
 
 
       if(cpassword !== password){
@@ -58,9 +75,13 @@ const supabase = createClientComponentClient()
         email,
         password,
         options:{
-            redirectTo: `${location.origin}/auth/callback?email=${email}`
+            redirectTo: `${location.origin}/auth/callback?email=${email}`,
+            captchaToken: captchaToken,
         }
       })
+      captcha.current.resetCaptcha()
+
+
       router.refresh()
 
       toast.success("Email sent to your email address. Please verify your email address to continue.");
@@ -88,7 +109,8 @@ const supabase = createClientComponentClient()
       toast.error("Wrong email or password")
     }
   });
-
+ 
+  
 
   return (
     <>
@@ -148,6 +170,13 @@ const supabase = createClientComponentClient()
                     }}
                   />
     
+                </div>
+                <div className="mt-6">
+                  <HCaptcha
+                    ref={captcha}
+                    sitekey="f88ee0ec-b7ab-43c5-a4fa-1a12594d7d21"
+                    onVerify={setCaptchaToken}
+                    />
                 </div>
 
                 <button
