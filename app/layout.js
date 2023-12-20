@@ -4,23 +4,23 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import { Toaster } from 'react-hot-toast'
 import Footer from '@/components/Footer'
-import { init } from "@socialgouv/matomo-next";
 import React, { useEffect } from "react";
+import Script from 'next/script'
 
-
-const MATOMO_URL = "http://db98-203-18-51-141.ngrok-free.app/matomo.php/matomo.js"
-const MATOMO_SITE_ID = 2;
 
 const inter = Inter({ subsets: ['latin'] })
 
 
 export default function RootLayout({ children }) {
-  useEffect(() => {
-    init({ url: MATOMO_URL, siteId: MATOMO_SITE_ID });
-  }, []);
 
   return (
     <html lang="en">
+      <head>
+      <Script
+          src="matomo.js"
+          strategy="lazyOnload"
+        />
+      </head>
       <body className={inter.className}>
       <Toaster />
 
